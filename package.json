@@ -1,0 +1,22 @@
+{
+  "name": "allunsigned",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "contributors": [
+    "Oscar Elf Svensson <os222di@student.lnu.se>",
+    "Mattias Ruljeff <mr223mi@student.lnu.se>"
+  ],
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:mr223mi/allunsigned.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
