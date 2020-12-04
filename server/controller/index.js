@@ -11,8 +11,11 @@ indexController.test = async (req, res) => {
 
         connection.query('INSERT INTO test(name, genre, albums) VALUES("Rullez", "Dansband", "En Fika I Resby")')
 
-
-
+        res.status(200)
+        res.json({
+            msg: 'Query was added.'
+        })
+  
     } catch (error) {
         console.log(error)
         res.status(400).json({ msg: 'Error: ' + error })

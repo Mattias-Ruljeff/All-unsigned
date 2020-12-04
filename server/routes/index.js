@@ -5,10 +5,10 @@ const indexController = require('../controller')
 
 /** 
  * @route   GET tests
- * @desc    Handles get requests to tests
+ * @desc    Handles post requests to tests
  * @access  Public
  */
-router.get('/test', indexController.test)
+router.post('/test', indexController.test)
 
 // Exports
 module.exports = router

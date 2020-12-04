@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "sever": "nodemon --inspect server.js",
+    "server": "nodemon --inspect server.js",
     "client": "start --prefix client",
     "dev": "concurrently \"npm run devServer\" \"npm run devClient\""
   },
