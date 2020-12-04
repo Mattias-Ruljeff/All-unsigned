@@ -5,9 +5,33 @@ const connection = require('../configs/database')
 
 const indexController = {}
 
-indexController.test = async (req, res) => {
+indexController.index = async (req, res) => {
     try {
-        console.log('Hello World!')
+        
+        await connection.query(
+            'SELECT * FROM test',
+            (error, result, fields) => {
+                if (error) {
+                    throw error;
+                }
+
+                res.status(200)
+                res.json({
+                    msg: 'I found it :).',
+                    result
+                })
+            }
+        )
+
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({ msg: 'Error: ' + error })
+    }
+}
+
+indexController.create = async (req, res) => {
+    try {
+        console.log('Hello World! POST')
 
         connection.query('INSERT INTO test(name, genre, albums) VALUES("Rullez", "Dansband", "En Fika I Resby")')
 
