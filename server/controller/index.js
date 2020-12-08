@@ -9,7 +9,7 @@ indexController.index = async (req, res) => {
     try {
         
         await connection.query(
-            'SELECT * FROM test',
+            'SELECT * FROM band',
             (error, result, fields) => {
                 if (error) {
                     throw error;
@@ -33,7 +33,8 @@ indexController.create = async (req, res) => {
     try {
         console.log('Hello World! POST')
 
-        connection.query('INSERT INTO test(name, genre, albums) VALUES("Rullez", "Dansband", "En Fika I Resby")')
+        // connection.query('INSERT INTO band(name) VALUES("")')
+        connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`)
 
         res.status(200)
         res.json({
