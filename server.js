@@ -24,7 +24,7 @@ app.get('*', (req, res) => {
 })
 
 // Start listening
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 5000
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`)
   console.log('Press Ctrl-C to terminate...')

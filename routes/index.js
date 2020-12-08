@@ -1,7 +1,7 @@
 'use strict'
 
 const router = require('express').Router()
-const indexController = require('../controller')
+const indexController = require('../controllers')
 
 /** 
  * @route   GET bands
