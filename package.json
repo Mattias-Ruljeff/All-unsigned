@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Student: Oscar Elf Svensson - os222di\r Student: Mattias Ruljeff - mr223mi",
   "main": "server.js",
+  "engines": {
+    "node": "14.15.x",
+    "npm": "6.14.x"
+  },
   "scripts": {
     "start": "npm start --prefix server"
   },
