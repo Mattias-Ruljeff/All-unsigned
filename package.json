@@ -1,0 +1,14 @@
+{
+  "name": "allunsigned",
+  "version": "1.0.0",
+  "description": "Student: Oscar Elf Svensson - os222di\r Student: Mattias Ruljeff - mr223mi",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm start --prefix server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:mr223mi/allunsigned.git"
+  },
+  "license": "MIT"
+}
