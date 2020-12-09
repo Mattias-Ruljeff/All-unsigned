@@ -8,7 +8,6 @@ const indexController = require("../controllers");
  * @desc    Handles get requests to tests
  * @access  Public
  */
-router.get("/", indexController.index);
 router.get("/bands", indexController.bands);
 
 /**

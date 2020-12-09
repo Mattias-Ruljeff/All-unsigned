@@ -1,12 +1,11 @@
 "use strict";
 
 const mysql = require("mysql");
-require("dotenv").config();
 let connection;
 
 if (process.env.NODE_ENV === "production") {
   connection = mysql.createConnection(process.env.JAWSDB_URL);
-  connection.connect();
+  // connection.connect();
 } else {
   connection = mysql.createConnection({
     host: process.env.HOST,
@@ -15,8 +14,14 @@ if (process.env.NODE_ENV === "production") {
     database: process.env.DATABASE,
     port: process.env.DB_PORT,
   });
-  connection.connect();
+
 }
+
+connection.connect((error) => {
+    if (error) {
+        console.log(erroro.message)
+    }
+})
 
 // Exports
 module.exports = connection;

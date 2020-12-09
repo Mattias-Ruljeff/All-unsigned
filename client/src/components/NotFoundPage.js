@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function NotFoundPage() {
+
+const NotFoundPage = () => {
+
+  // The HTML that is being rendered.
   return (
-    <>
-      <h2>404</h2>
-      <h2>Page not found</h2>
+    <div>
+      <h1>404</h1>
+      <p>Oops! Something went wrong!</p>
+      <p>The page you were looking for doesen't exist</p>
       <p>
-        <Link to="/" className="btn btn-primary">
-          Back to homepage
-        </Link>
+        <Link to="/">Go to home</Link>
       </p>
-    </>
+    </div>
   );
 }
+
 export default NotFoundPage;

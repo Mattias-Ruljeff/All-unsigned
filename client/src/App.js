@@ -1,20 +1,25 @@
-import "./App.css";
-import React from "react";
-import Header from "./components/common/Header";
+import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import './App.css';
+
+// Components
+import Navbar from "./components/layouts/Navbar";
 import BandList from "./components/BandList";
-import { Route, Switch } from "react-router-dom";
-import NotFoundPage from "./components/NotFoundPage.js";
 import AddBand from "./components/AddBand";
+import NotFoundPage from "./components/NotFoundPage.js";
 
 function App() {
   return (
-    <div className="container-fluid">
-      <Header />
-      <Switch>
-        <Route path="/" exact component={BandList} />
-        <Route path="/addband" component={AddBand} />
-        <Route component={NotFoundPage} />
-      </Switch>
+    <div>
+      <BrowserRouter>
+        <Navbar />
+          <Switch>
+            <Route exact path ='/' component={BandList} />
+            <Route exact path ='/addband' component={AddBand} />
+            <Route exact path ='/404' component={NotFoundPage} />
+            <Redirect to="/404" />
+          </Switch>
+      </BrowserRouter>
     </div>
   );
 }

@@ -5,23 +5,26 @@ const connection = require("../configs/database");
 
 const indexController = {};
 
-indexController.index = async (req, res) => {
-  console.log("at index");
-};
 indexController.bands = async (req, res) => {
   try {
-    console.log(req.body);
-    await connection.query("SELECT * FROM band", (error, result, fields) => {
-      if (error) {
-        throw error;
-      }
-      console.log(result.body);
 
-      res.status(200);
-      res.json({
-        result,
-      });
-    });
+    const queryBeers = 'SELECT * FROM band'
+
+    await connection.query(queryBeers,
+      (error, result, fields) => {
+        if (error) {
+            throw error
+        }
+
+        res.status(200)
+        res.json({
+            msg: 'Fetching all bands',
+            result
+        })
+
+      }
+    )
+
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "Error: " + error });

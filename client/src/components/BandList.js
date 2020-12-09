@@ -1,38 +1,30 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-class BandList extends Component {
-  state = {
-    bands: [],
-  };
-  componentDidMount() {
-    this.getBands();
-  }
-  getBands = () => {
-    axios
-      .get("/bands")
-      .then((res) => {
-        if (res.data) {
-          this.setState({
-            bands: res.data.result,
-          });
-        }
-      })
-      .catch((err) => console.log(err));
-  };
+const BandList = () => {
 
-  render() {
-    let { bands } = this.state;
-    console.log(bands);
-    return (
-      <div className="bandList">
-        <ul>
-          {bands.map((band) => (
-            <li key={band.id}>{band.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  const [bands, setBands] = useState([]);
+
+  useEffect(() => {
+      axios.get('/bands')
+      .then(res => {
+          console.log(res)
+          setBands(res.data.result)
+      })
+      .catch(error => {
+          console.log(error)
+      })
+  }, [])
+
+  return (
+    <div className="bandList">
+      <ul>
+        {bands.map(post => (
+          <li key={post.id}>{post.name}</li>
+        ))}
+      </ul>
+    </div>
+  )
 }
+
 export default BandList;
