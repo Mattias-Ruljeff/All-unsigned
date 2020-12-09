@@ -34,7 +34,6 @@ indexController.bands = async (req, res) => {
 indexController.checkBandInDb = async (req, res) => {
   try {
     const querySpecificBand = `SELECT name FROM band WHERE name = "${req.params.id}"`
-    console.log(req.params)
     await connection.query(querySpecificBand,
       (error, result, fields) => {
         if (error) {

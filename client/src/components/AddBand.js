@@ -26,9 +26,7 @@ const AddBand = () => {
 				axios.post('/add', bands)
 			}
 		})
-
 		setBands({ name: '' })
-		console.log(bands)
 	}
 
 	const errorMSG = (

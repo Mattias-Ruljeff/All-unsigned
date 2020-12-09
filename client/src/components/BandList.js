@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BandDetails from './BandDetails';
 import axios from "axios";
 
 const BandList = () => {
@@ -8,7 +9,6 @@ const BandList = () => {
   useEffect(() => {
       axios.get('/bands')
       .then(res => {
-          console.log(res)
           setBands(res.data.result)
       })
       .catch(error => {
@@ -16,15 +16,18 @@ const BandList = () => {
       })
   }, [])
 
+
   return (
     <div className="bandList">
       <ul>
-        {bands.map(post => (
-          <li key={post.id}>{post.name}</li>
-        ))}
+        { bands.map(band => {
+          return ( <BandDetails key={band.id} band={band} />)
+          })
+        }
       </ul>
     </div>
   )
 }
 
 export default BandList;
+
