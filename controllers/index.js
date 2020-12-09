@@ -6,17 +6,21 @@ const connection = require("../configs/database");
 const indexController = {};
 
 indexController.index = async (req, res) => {
+  console.log("at index");
+};
+indexController.bands = async (req, res) => {
   try {
+    console.log(req.body);
     await connection.query("SELECT * FROM band", (error, result, fields) => {
       if (error) {
         throw error;
       }
+      console.log(result.body);
 
       res.status(200);
-      // res.json({
-      //     msg: 'I found it :).',
-      //     result
-      // })
+      res.json({
+        result,
+      });
     });
   } catch (error) {
     console.log(error);
@@ -26,8 +30,6 @@ indexController.index = async (req, res) => {
 
 indexController.create = async (req, res) => {
   try {
-    console.log("Hello World! POST");
-
     // connection.query('INSERT INTO band(name) VALUES("")')
     connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`);
 

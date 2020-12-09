@@ -5,4 +5,4 @@ echo "=========-Please add commit message-=========";
 read message;
 git commit -m "$message";
 git push;
-git push heroku master;
+# git push heroku master;
