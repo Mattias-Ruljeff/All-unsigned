@@ -8,9 +8,9 @@ const indexController = {};
 indexController.bands = async (req, res) => {
   try {
 
-    const queryBeers = 'SELECT * FROM band'
+    const queryBands = 'SELECT * FROM band'
 
-    await connection.query(queryBeers,
+    await connection.query(queryBands,
       (error, result, fields) => {
         if (error) {
             throw error
@@ -31,14 +31,44 @@ indexController.bands = async (req, res) => {
   }
 };
 
+indexController.checkBandInDb = async (req, res) => {
+  try {
+    const querySpecificBand = `SELECT name FROM band WHERE name = "${req.params.id}"`
+    console.log(req.params)
+    await connection.query(querySpecificBand,
+      (error, result, fields) => {
+        if (error) {
+          throw error
+        }
+        
+        if (Object.keys(result).length === 0) {
+          res.status(200)
+          res.json({msg: "Band name not taken", uniqueBand : true})
+        } else {
+          res.json({
+            msg: 'Band name is taken',
+            uniqueBand : false
+          })
+        }
+        
+
+      }
+    )
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error: " + error });
+  }
+};
+
+
 indexController.create = async (req, res) => {
   try {
-    // connection.query('INSERT INTO band(name) VALUES("")')
     connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`);
 
     res.status(200);
     res.json({
-      msg: "Query was added.",
+      msg: "Band was added.",
     });
   } catch (error) {
     console.log(error);

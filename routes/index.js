@@ -10,6 +10,8 @@ const indexController = require("../controllers");
  */
 router.get("/bands", indexController.bands);
 
+router.get("/bands/:id", indexController.checkBandInDb);
+
 /**
  * @route   POST bands
  * @desc    Handles post requests to tests
