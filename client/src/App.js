@@ -4,8 +4,9 @@ import './App.css';
 
 // Components
 import Navbar from "./components/layouts/Navbar";
-import BandList from "./components/BandList";
-import AddBand from "./components/AddBand";
+import Home from "./components/pages/Home";
+import BandPage from "./components/pages/BandPage";
+import BandInfo from "./components/bands/BandInfo";
 import NotFoundPage from "./components/NotFoundPage.js";
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
       <BrowserRouter>
         <Navbar />
           <Switch>
-            <Route exact path ='/' component={BandList} />
-            <Route exact path ='/addband' component={AddBand} />
+            <Route exact path ='/' component={Home} />
+            <Route exact path ='/bands' component={BandPage} />
+            <Route exact path ='/bands/info/:id' component={BandInfo} />
             <Route exact path ='/404' component={NotFoundPage} />
             <Redirect to="/404" />
           </Switch>

@@ -18,7 +18,8 @@ app.use(express.json()); // Parses JSON
 app.use(bodyParser.json());
 
 // Routes
-app.use("/", require("./routes"));
+app.use("/bands", require("./routes/bandRoute"));
+app.use("/albums", require("./routes/albumRoute"));
 
 // Serve static assets if in production.
 if (process.env.NODE_ENV === "production") {

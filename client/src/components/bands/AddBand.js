@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from "axios";
 
 
-const AddBand = () => {
+const AddBand = ({ addBandToList }) => {
 
 	const [bands, setBands] = useState({ name: ''});
 	const [error, setError] = useState({ msg: '' });
@@ -17,16 +17,17 @@ const AddBand = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
-		axios.get(`/bands/${bands.name}`)
+		axios.get(`bands/${bands.name}`)
 		.then(res=>{
 			if (res.data.uniqueBand === false) {
 				setError({msg: res.data.msg})
 			} else {
 				setError({msg: ""})
-				axios.post('/add', bands)
+				axios.post('bands/add', bands)
+				addBandToList()
+				setBands({ name: '' })
 			}
 		})
-		setBands({ name: '' })
 	}
 
 	const errorMSG = (
@@ -41,7 +42,8 @@ const AddBand = () => {
 
 	return (
 		<div className="addBand">
-			<form onSubmit={handleSubmit} >
+			<form onSubmit={handleSubmit}>
+
 				<h2>Create new band</h2>
 
 				<input
@@ -49,13 +51,15 @@ const AddBand = () => {
 					name="name"
 					placeholder="Enter band name..."
 					maxLength="30"
-          required
+          			required
 					value={bands.name}
-          onChange={handleChange}
+          			onChange={handleChange}
 				/>
 
 				<input type="submit" value="Submit" />
+
 			</form>
+
 			{ error.msg !== null ? errorMSG : '' }
 		</div>
 	)
