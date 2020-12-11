@@ -3,6 +3,8 @@
 const router = require("express").Router();
 const albumController = require("../controllers/albumController");
 
+//-----------------------------------------------------
+
 /**
  * @route   GET bands
  * @desc    Handles get requests to tests
@@ -16,6 +18,25 @@ router.get("/", albumController.albums);
  * @access  Public
  */
 router.get("/type", albumController.type);
+
+//-----------------------------------------------------
+/**
+ * @route   GET songs
+ * @desc    Handles get requests to tests
+ * @access  Public
+ */
+
+router.get("/songs", albumController.getSongs);
+
+/**
+ * @route   POST songs
+ * @desc    Handles post requests to tests
+ * @access  Public
+ */
+router.post("/songs/add", albumController.addSong);
+
+//-----------------------------------------------------
+
 
 /**
  * @route   GET bands

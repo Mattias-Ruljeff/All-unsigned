@@ -33,7 +33,6 @@ bandController.bands = async (req, res) => {
 
 bandController.addBand = async (req, res) => {
   try {
-    console.log(req.body)
     connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`);
 
     res.status(200);
@@ -48,7 +47,6 @@ bandController.addBand = async (req, res) => {
 
 bandController.editBand = async (req, res) => {
   try {
-    console.log(req.body)
     connection.query(`UPDATE band SET name WHERE id = "${req.body.name}"`);
 
     res.status(200);
@@ -121,7 +119,6 @@ bandController.getBandFromDb = async (req, res) => {
 
 bandController.delete = async (req, res) => {
   try {
-    console.log(req.params.id)
     connection.query(`DELETE FROM band WHERE id = "${req.params.id}"`);
 
     res.status(200);

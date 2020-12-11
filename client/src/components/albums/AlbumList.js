@@ -9,14 +9,24 @@ import AlbumListDetails from './AlbumListDetails';
 const AlbumList = ({bandId}) => {
 		const history = useHistory()
 
-		let albumDetails = {}
+    let albumDetails = {}
 
     const [albums, setAlbums] = useState([]);
-    const [newAlbum, setNewAlbum] = useState({type:"Album", date: new Date("2015-11-11")});
+    const [newAlbum, setNewAlbum] = useState({type:"Album"});
 		const [albumType, setAlbumType] = useState();
 		const [form, setForm] = useState();
-		
+    
     useEffect(() => {
+      axios.get(`/albums`)
+      .then(res => {
+        setAlbums(res.data.result)
+      })
+      .catch(error => {
+        console.log(error)
+        setAlbums([])
+        history.push("/404")
+      })
+
       axios.get(`/albums/type`)
       .then(res => {
         setAlbumType(res.data.result)
@@ -38,22 +48,23 @@ const AlbumList = ({bandId}) => {
 			albumDetails = {
 				...albumDetails,
 				[event.target.name]: event.target.value,
-				type: document.forms["hej"]["albumtype"].value
+				type: document.forms["newAlbum"]["albumtype"].value
 			}
     }
-  
 
     // Handles the data when submiting.
     const handleSubmit = (event) => {
-			event.preventDefault();
+      event.preventDefault();
 			albumDetails = {...albumDetails, id:bandId}
-			axios.post("/albums/add", albumDetails)
+      // setAlbums(...albums, albumDetails)
+      axios.post("/albums/add", albumDetails)
+      // history.push(`/`)
     }
-  
+  //
     
     const addAlbumForm = () => {
 			setForm(
-        <form name="hej" onSubmit={handleSubmit} >
+        <form name="newAlbum" onSubmit={handleSubmit} >
 
           <input
             type="text"
@@ -78,8 +89,8 @@ const AlbumList = ({bandId}) => {
           <label htmlFor="albumtype">Choose album type</label>
           <select id="albumtype" name="type" onChange={handleChange} required>
             {albumType.map((albumtype, index) => {
-							const {type} = albumtype
-							return <option key={index} value={type}>{type}</option>
+							const {id,type} = albumtype
+							return <option key={index} value={id}>{type}</option>
 						})}
 					</select>
 
@@ -88,7 +99,7 @@ const AlbumList = ({bandId}) => {
             name="date"
             className="form-date"
             required
-            value={newAlbum.date}
+            value={albumDetails.date}
             onChange={handleChange}
           />
 
@@ -101,6 +112,13 @@ const AlbumList = ({bandId}) => {
         </form>
 			)
     }
+
+    let list
+    if(albums) {
+      list = albums.map(album => {
+        return ( <AlbumListDetails key={album.id} album={album} removeAlbumFromList={removeAlbumFromList} bandId={bandId} albumType={albumType}/>) 
+      })
+    }
     
   return (
     <div className="bandList">
@@ -108,11 +126,7 @@ const AlbumList = ({bandId}) => {
           <h2>Albums</h2>
           <button onClick= {addAlbumForm}>Add new album</button>
           {form}
-				{ 
-					albums.map(album => {
-          return ( <AlbumListDetails key={album.id} album={album} removeAlbumFromList={removeAlbumFromList} />)
-          })
-        }
+				{list}
       </ul>
     </div>
   )
@@ -120,3 +134,4 @@ const AlbumList = ({bandId}) => {
 
 export default AlbumList;
 
+// newAlbum.date.getFullYear() + "-" + newAlbum.date.getMonth() + "-" + newAlbum.date.getda()

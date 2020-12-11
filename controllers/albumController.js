@@ -18,7 +18,33 @@ albumController.albums = async (req, res) => {
 
         res.status(200)
         res.json({
-            msg: 'Fetching all bands',
+            msg: 'Fetching all albums',
+            result
+        })
+
+      }
+    )
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error: " + error });
+  }
+};
+
+albumController.getSongs = async (req, res) => {
+  try {
+
+    const queryBands = 'SELECT * FROM song'
+
+    await connection.query(queryBands,
+      (error, result, fields) => {
+        if (error) {
+            throw error
+        }
+
+        res.status(200)
+        res.json({
+            msg: 'Fetching all songs',
             result
         })
 
@@ -34,7 +60,7 @@ albumController.albums = async (req, res) => {
 albumController.type = async (req, res) => {
   try {
 
-    const queryBands = 'SELECT type FROM album_type'
+    const queryBands = 'SELECT * FROM album_type'
 
     await connection.query(queryBands,
       (error, result, fields) => {
@@ -60,8 +86,7 @@ albumController.type = async (req, res) => {
 albumController.add = async (req, res) => {
   try {
     const { id, name, type, genre, date } = req.body
-    console.log(req.body)
-    connection.query(`INSERT INTO album(name, band_id, genre, album_type_id, release_date) VALUES("${name},${id},${genre}, ${type}, ${date}")`);
+    await connection.query(`INSERT INTO album(name, band_id, genre, album_type_id, release_date) VALUES("${name}","${id}","${genre}", "${type}", "${date}")`);
 
     res.status(200);
     res.json({
@@ -73,9 +98,40 @@ albumController.add = async (req, res) => {
   }
 };
 
+albumController.addSong = async (req, res) => {
+  try {
+    const { name, length, albumId, bandId } = req.body
+    await connection.query(`INSERT INTO song(name, length, band_id, album_id) VALUES("${name}","${length}", "${bandId}", "${albumId}")`);
+    
+    const querySong = `SELECT id FROM song WHERE name = "${name}"`
+
+    await connection.query(querySong,
+      (error, result, fields) => {
+        if (error) {
+            throw error
+        }
+        connection.query(`INSERT INTO tracklist(album_id, song_id) VALUES("${albumId}","${result[0].id}")`);
+        
+        // res.status(200)
+        // res.json({
+        //   msg: 'Fetching song id',
+        //   result
+        // })
+      }
+      )
+
+    res.status(200);
+    res.json({
+      msg: "Song was added.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "Error: " + error });
+  }
+};
+
 albumController.editBand = async (req, res) => {
   try {
-    console.log(req.body)
     connection.query(`UPDATE band SET name WHERE id = "${req.body.name}"`);
 
     res.status(200);
@@ -148,7 +204,6 @@ albumController.getAlbumFromDb = async (req, res) => {
 
 albumController.delete = async (req, res) => {
   try {
-    console.log(req.params.id)
     connection.query(`DELETE FROM band WHERE id = "${req.params.id}"`);
 
     res.status(200);
