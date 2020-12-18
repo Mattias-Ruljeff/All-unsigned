@@ -10,20 +10,20 @@ import BandInfo from "./components/bands/BandInfo";
 import NotFoundPage from "./components/NotFoundPage.js";
 
 function App() {
-  return (
-    <div>
-      <BrowserRouter>
-        <Navbar />
-          <Switch>
-            <Route exact path ='/' component={Home} />
-            <Route exact path ='/bands' component={BandPage} />
-            <Route exact path ='/bands/info/:id' component={BandInfo} />
-            <Route exact path ='/404' component={NotFoundPage} />
-            <Redirect to="/404" />
-          </Switch>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div>
+            <BrowserRouter>
+                <Navbar />
+                <Switch>
+                    <Route exact path ='/' component={Home} />
+                    <Route exact path ='/bands' component={BandPage} />
+                    <Route exact path ='/bands/info/:id' component={BandInfo} />
+                    <Route exact path ='/404' component={NotFoundPage} />
+                    <Redirect to="/404" />
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

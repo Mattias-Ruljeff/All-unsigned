@@ -18,9 +18,9 @@ const BandListDetails = ({ band, removeBandFromList }) => {
                 <div>Band: {band.name}</div>
             </div>
 
-            <button className="info-btn" onClick={handleInfo} >
+        <button className="info-btn" onClick={handleInfo} >
             Info
-            </button>
+        </button>
 
         </div>
     );

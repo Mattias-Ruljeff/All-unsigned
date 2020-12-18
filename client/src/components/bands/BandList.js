@@ -6,17 +6,21 @@ import BandListDetails from './BandListDetails';
 
 const BandList = ({bands, removeBandFromList}) => {
 
-  return (
-    <div className="bandList">
-      <ul>
-        { bands.map(band => {
-          return ( <BandListDetails key={band.id} band={band} removeBandFromList={removeBandFromList} />)
-          })
-        }
-      </ul>
-    </div>
-  )
+    return (
+        <div className="bandList">
+            <ul>
+                { bands.map(band => {
+                    return (
+                        <BandListDetails
+                            key={band.id}
+                            band={band}
+                            removeBandFromList={removeBandFromList} />
+                    )
+                })}
+            </ul>
+        </div>
+    )
 }
 
+// Export
 export default BandList;
-

@@ -7,131 +7,142 @@ import { useHistory } from 'react-router-dom';
 import AlbumListDetails from './AlbumListDetails';
 
 const AlbumList = ({bandId}) => {
-		const history = useHistory()
+    const history = useHistory()
 
     let albumDetails = {}
 
     const [albums, setAlbums] = useState([]);
     const [newAlbum, setNewAlbum] = useState({type:"Album"});
-		const [albumType, setAlbumType] = useState();
-		const [form, setForm] = useState();
-    
-    useEffect(() => {
-      axios.get(`/albums`)
-      .then(res => {
-        setAlbums(res.data.result)
-      })
-      .catch(error => {
-        console.log(error)
-        setAlbums([])
-        history.push("/404")
-      })
+    const [albumType, setAlbumType] = useState();
+    const [form, setForm] = useState();
 
-      axios.get(`/albums/type`)
-      .then(res => {
-        setAlbumType(res.data.result)
-      })
-      .catch(error => {
-        console.log(error)
-        setAlbumType([])
-        history.push("/404")
-      })
+    useEffect(() => {
+        axios.get(`/albums`)
+        .then(res => {
+            setAlbums(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setAlbums([])
+            history.push("/404")
+        })
+
+        axios.get(`/albums/type`)
+        .then(res => {
+            setAlbumType(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setAlbumType([])
+            history.push("/404")
+        })
     }, [])
 
     const removeAlbumFromList = (albumToRemove) => {
-      const removeAlbum = albums.filter(album => album.id !== albumToRemove)
-      setAlbums(removeAlbum)
+        const removeAlbum = albums.filter(album => album.id !== albumToRemove)
+        setAlbums(removeAlbum)
     }
 
     // Handles the changes in the task.
     const handleChange = (event) => {
-			albumDetails = {
-				...albumDetails,
-				[event.target.name]: event.target.value,
-				type: document.forms["newAlbum"]["albumtype"].value
-			}
+        albumDetails = {
+            ...albumDetails,
+            [event.target.name]: event.target.value,
+            type: document.forms["newAlbum"]["albumtype"].value
+        }
     }
 
     // Handles the data when submiting.
     const handleSubmit = (event) => {
-      event.preventDefault();
-			albumDetails = {...albumDetails, id:bandId}
-      // setAlbums(...albums, albumDetails)
-      axios.post("/albums/add", albumDetails)
-      // history.push(`/`)
+        event.preventDefault();
+
+        albumDetails = {...albumDetails, id:bandId}
+        // setAlbums(...albums, albumDetails)
+        axios.post("/albums/add", albumDetails)
+        // history.push(`/`)
     }
-  //
-    
+
     const addAlbumForm = () => {
-			setForm(
-        <form name="newAlbum" onSubmit={handleSubmit} >
+        setForm(
+            <form name="newAlbum" onSubmit={handleSubmit} >
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter album name..."
-            className="form-task"
-            required
-            value={albums.name}
-            onChange={handleChange}
-          />
-          
-         <input
-            type="text"
-            name="genre"
-            placeholder="Enter genre..."
-            className="form-task"
-            required
-            value={albums.genre}
-            onChange={handleChange}
-          />
-          
-          <label htmlFor="albumtype">Choose album type</label>
-          <select id="albumtype" name="type" onChange={handleChange} required>
-            {albumType.map((albumtype, index) => {
-							const {id,type} = albumtype
-							return <option key={index} value={id}>{type}</option>
-						})}
-					</select>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter album..."
+                    className="form-task"
+                    required
+                    value={albums.name}
+                    onChange={handleChange}
+                />
 
-          <input
-            type="date"
-            name="date"
-            className="form-date"
-            required
-            value={albumDetails.date}
-            onChange={handleChange}
-          />
+                <input
+                    type="text"
+                    name="genre"
+                    placeholder="Enter genre..."
+                    className="form-task"
+                    required
+                    value={albums.genre}
+                    onChange={handleChange}
+                />
 
-          <input
-            type="submit"
-            value="Submit"
-            className="task-btn"
-          />
-					
-        </form>
-			)
+                <label htmlFor="albumtype">Choose album type</label>
+                <select
+                    id="albumtype"
+                    name="type" 
+                    onChange={handleChange} 
+                    required 
+                >
+                    {albumType.map((albumtype, index) => {
+                        const {id,type} = albumtype
+                        return <option key={index} value={id}>{type}</option>
+                    })}
+                </select>
+
+                <input
+                    type="date"
+                    name="date"
+                    className="form-date"
+                    required
+                    value={albumDetails.date}
+                    onChange={handleChange}
+                />
+
+                <input
+                    type="submit"
+                    value="Submit"
+                    className="task-btn"
+                />
+
+            </form>
+        )
     }
 
     let list
-    if(albums) {
-      list = albums.map(album => {
-        return ( <AlbumListDetails key={album.id} album={album} removeAlbumFromList={removeAlbumFromList} bandId={bandId} albumType={albumType}/>) 
-      })
+    if (albums) {
+        list = albums.map(album => {
+            return (
+                <AlbumListDetails
+                    key={album.id}
+                    album={album}
+                    removeAlbumFromList={removeAlbumFromList}
+                    bandId={bandId}
+                    albumType={albumType}
+                />
+            ) 
+        })
     }
-    
-  return (
-    <div className="bandList">
-      <ul>
-          <h2>Albums</h2>
-          <button onClick= {addAlbumForm}>Add new album</button>
-          {form}
-				{list}
-      </ul>
-    </div>
-  )
+
+    return (
+        <div className="bandList">
+            <ul>
+                <h2>Albums</h2>
+                <button onClick= {addAlbumForm}>Add new album</button>
+                {form}
+                {list}
+            </ul>
+        </div>
+    )
 }
 
 export default AlbumList;
-
-// newAlbum.date.getFullYear() + "-" + newAlbum.date.getMonth() + "-" + newAlbum.date.getda()
