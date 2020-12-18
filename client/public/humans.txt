@@ -1,0 +1,14 @@
+/* TEAM */
+Designer & Developer: Oscar Elf Svensson
+GitHub: effeboii
+GitLab: os222di
+Contact: os222di@student.lnu.se
+Location: Linneus Univeristy, Kalmar
+
+/* THANKS */
+
+/* SITE */
+Last update: 2020/12/18
+Language: English
+Doctype: HTML5
+IDE: VSC, JavaScript & Node

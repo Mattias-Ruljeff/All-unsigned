@@ -7,7 +7,7 @@ import Navbar from "./components/layouts/Navbar";
 import Home from "./components/pages/Home";
 import BandPage from "./components/pages/BandPage";
 import BandInfo from "./components/bands/BandInfo";
-import NotFoundPage from "./components/NotFoundPage.js";
+import NotFoundPage from "./components/pages/NotFoundPage";
 
 function App() {
     return (
@@ -26,4 +26,5 @@ function App() {
     );
 }
 
+// Exports
 export default App;
