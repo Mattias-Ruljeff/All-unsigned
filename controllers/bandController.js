@@ -5,11 +5,11 @@ const connection = require("../configs/database");
 
 const bandController = {};
 
-bandController.bands = async (req, res) => {
+bandController.index = async (req, res) => {
     try {
-        const queryBands = 'SELECT * FROM band'
+        const selectAllBandsQuery = 'SELECT * FROM band'
 
-        await connection.query(queryBands,
+        await connection.query(selectAllBandsQuery,
             (error, result, fields) => {
             if (error) {
                 throw error
@@ -29,13 +29,14 @@ bandController.bands = async (req, res) => {
     }
 };
 
-bandController.addBand = async (req, res) => {
+bandController.create = async (req, res) => {
     try {
+        // const createBandQuery = `INSERT INTO band(name) VALUES("${req.body.name}")`
         connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`);
 
         res.status(200);
         res.json({
-            msg: "Band was added.",
+            msg: "Band was created",
         });
 
     } catch (error) {
@@ -44,66 +45,15 @@ bandController.addBand = async (req, res) => {
     }
 };
 
-bandController.editBand = async (req, res) => {
+bandController.edit = async (req, res) => {
     try {
+        // const editBandQuery = `UPDATE band SET name WHERE id = "${req.body.name}"`
         connection.query(`UPDATE band SET name WHERE id = "${req.body.name}"`);
 
         res.status(200);
         res.json({
-            msg: "Band was edited.",
+            msg: "Band was updated",
         });
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ msg: "Error: " + error });
-    }
-};
-
-bandController.checkBandInDb = async (req, res) => {
-    try {
-        const querySpecificBand = `SELECT name FROM band WHERE name = "${req.params.id}"`
-        await connection.query(querySpecificBand,
-        (error, result, fields) => {
-            if (error) {
-                throw error
-            }
-
-            if (Object.keys(result).length === 0) {
-                res.status(200)
-                res.json({msg: "Band name not taken", uniqueBand : true})
-            } else {
-                res.json({
-                    msg: 'Band name is taken',
-                    uniqueBand : false
-                })
-            }
-        })
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ msg: "Error: " + error });
-    }
-};
-
-bandController.getBandFromDb = async (req, res) => {
-    try {
-        const querySpecificBand = `SELECT * FROM band WHERE id = "${req.params.id}"`
-        await connection.query(querySpecificBand,
-        (error, result, fields) => {
-            if (error) {
-                throw error
-            }
-
-            if (Object.keys(result).length === 0) {
-                res.status(404).json({
-                    msg: 'Band not found',
-                    uniqueBand : false
-                })
-            } else {
-                res.status(200)
-                res.json({msg: "Band found", result})
-            }
-        })
 
     } catch (error) {
         console.log(error);
@@ -113,12 +63,74 @@ bandController.getBandFromDb = async (req, res) => {
 
 bandController.delete = async (req, res) => {
     try {
+        // const deleteSpecificBandQuery = `DELETE FROM band WHERE id = "${req.params.id}"`
         connection.query(`DELETE FROM band WHERE id = "${req.params.id}"`);
 
         res.status(200);
         res.json({
-            msg: "Band was deleted.",
+            msg: "The band was deleted",
         });
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+bandController.checkSpecificBand = async (req, res) => {
+    try {
+        const checkSpecificBandQuery = `SELECT name FROM band WHERE name = "${req.params.id}"`
+
+        await connection.query(checkSpecificBandQuery,
+        (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+
+            if (Object.keys(result).length === 0) {
+                res.status(200)
+                res.json({
+                    msg: "Band name is not availiable",
+                    uniqueBand : true
+                })
+                
+            } else {
+                res.json({
+                    msg: 'Band name is availiable',
+                    uniqueBand : false
+                })
+            }
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+bandController.getSpecificBand = async (req, res) => {
+    try {
+        const getSpecificBandQuery = `SELECT * FROM band WHERE id = "${req.params.id}"`
+
+        await connection.query(getSpecificBandQuery,
+        (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+
+            if (Object.keys(result).length === 0) {
+                res.status(404).json({
+                    msg: 'The band was not found',
+                    uniqueBand : false
+                })
+            } else {
+                res.status(200)
+                res.json({
+                    msg: "The band was found",
+                    result
+                })
+            }
+        })
 
     } catch (error) {
         console.log(error);

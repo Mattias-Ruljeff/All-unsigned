@@ -4,56 +4,67 @@ const router = require("express").Router();
 const albumController = require("../controllers/albumController");
 
 /**
- * @route   GET bands
- * @desc    Handles get requests to tests
+ * @route   GET albums
+ * @desc    Displays the albums
  * @access  Public
  */
-router.get("/", albumController.albums);
+router.get("/", albumController.index);
 
 /**
- * @route   GET bands
- * @desc    Handles get requests to tests
+ * @route   POST album
+ * @desc    Creates an album and adds it to the database
+ * @access  Public
+ */
+router.post("/add", albumController.create);
+
+/**
+ * @route   POST album
+ * @desc    Edits an album in the database
+ * @access  Public
+ */
+router.post("/edit/:id", albumController.edit);
+
+/**
+ * @route   DELETE album
+ * @desc    Deletes an album from the database
+ * @access  Public
+ */
+router.delete("/delete/:id", albumController.delete);
+
+/**
+ * @route   GET album
+ * @desc    Gets the specific album type
  * @access  Public
  */
 router.get("/type", albumController.type);
 
 /**
  * @route   GET songs
- * @desc    Handles get requests to tests
+ * @desc    Displays the songs
  * @access  Public
  */
-
-router.get("/songs", albumController.getSongs);
-
-/**
- * @route   POST songs
- * @desc    Handles post requests to tests
- * @access  Public
- */
-router.post("/songs/add", albumController.addSong);
+router.get("/songs", albumController.getAllSongs);
 
 /**
- * @route   GET bands
- * @desc    Handles get requests to tests
+ * @route   POST song
+ * @desc    Creates a specific song and adds it to the database
  * @access  Public
  */
-router.get("/:id", albumController.checkAlbumInDb);
-router.get("/getalbum/:id", albumController.getAlbumFromDb);
+router.post("/songs/add", albumController.createSong);
 
 /**
- * @route   POST bands
- * @desc    Handles post requests to tests
+ * @route   GET album
+ * @desc    Checks a specific album in the database
  * @access  Public
  */
-router.post("/add", albumController.add);
-router.post("/edit/:id", albumController.editBand);
+router.get("/:id", albumController.checkSpecificAlbum);
 
 /**
- * @route   DELETE bands
- * @desc    Handles delete requests to tests
+ * @route   GET album
+ * @desc    Gets a specific album in the database
  * @access  Public
  */
-router.delete("/delete/:id", albumController.delete);
+router.get("/getalbum/:id", albumController.getSpecificAlbum);
 
 
 // Exports

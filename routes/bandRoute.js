@@ -5,33 +5,45 @@ const bandController = require("../controllers/bandController");
 
 /**
  * @route   GET bands
- * @desc    Handles get requests to tests
+ * @desc    Displays the bands
  * @access  Public
  */
-router.get("/", bandController.bands);
-
-/**
- * @route   GET bands
- * @desc    Handles get requests to tests
- * @access  Public
- */
-router.get("/:id", bandController.checkBandInDb);
-router.get("/getband/:id", bandController.getBandFromDb);
+router.get("/", bandController.index);
 
 /**
  * @route   POST bands
- * @desc    Handles post requests to tests
+ * @desc    Creates a band and adds it to the database
  * @access  Public
  */
-router.post("/add", bandController.addBand);
-router.post("/edit/:id", bandController.editBand);
+router.post("/add", bandController.create);
 
 /**
- * @route   DELETE bands
- * @desc    Handles delete requests to tests
+ * @route   POST band
+ * @desc    Edits a band in the database
+ * @access  Public
+ */
+router.post("/edit/:id", bandController.edit);
+
+/**
+ * @route   DELETE band
+ * @desc    Deletes a band from the database
  * @access  Public
  */
 router.delete("/delete/:id", bandController.delete);
+
+/**
+ * @route   GET band
+ * @desc    Checks a specific band in the database
+ * @access  Public
+ */
+router.get("/:id", bandController.checkSpecificBand);
+
+/**
+ * @route   GET band
+ * @desc    Gets a specific band in the database
+ * @access  Public
+ */
+router.get("/getband/:id", bandController.getSpecificBand);
 
 
 // Exports
