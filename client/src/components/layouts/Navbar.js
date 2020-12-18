@@ -7,21 +7,25 @@ const Navbar = () => {
     // The HTML that is being rendered.
     return (
         <div>
+            <section id="header">
+                <div className="navbar container">
 
-            <div>
-                <h1>allUnsigned</h1>
-            </div>
+                    <div className="brand">
+                        <h1>allUnsigned</h1>
+                    </div>
 
-            <div>
-                <ul>
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/bands'>Bands</Link></li>
-                </ul>
-            </div>
+                    <div className="navlist">
+                        <ul>
+                            <li><Link to='/'>Home</Link></li>
+                            <li><Link to='/bands'>Bands</Link></li>
+                        </ul>
+                    </div>
 
+                </div>
+            </section>
         </div>
     );
 }
 
-// Exports.
+// Exports
 export default Navbar;

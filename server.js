@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("morgan");
 const path = require("path");
-const bodyParser = require("body-parser");
 
 require("dotenv").config();
 
@@ -15,7 +14,6 @@ const app = express();
 app.use(cors());
 app.use(logger("dev")); // Request logger
 app.use(express.json()); // Parses JSON
-app.use(bodyParser.json());
 
 // Routes
 app.use("/bands", require("./routes/bandRoute"));
