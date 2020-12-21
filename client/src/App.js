@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 
 // Components
-import Navbar from "./components/layouts/Navbar";
+import Header from "./components/layouts/Header";
 import Home from "./components/pages/Home";
 import BandPage from "./components/pages/BandPage";
 import BandInfo from "./components/bands/BandInfo";
@@ -13,7 +13,7 @@ function App() {
     return (
         <div>
             <BrowserRouter>
-                <Navbar />
+                <Header />
                 <Switch>
                     <Route exact path ='/' component={Home} />
                     <Route exact path ='/bands' component={BandPage} />

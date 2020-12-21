@@ -4,6 +4,59 @@
 
 /* Main
 =============================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;  
+}
 
-/* Navbar
+body {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;  
+}
+  
+/* Header
 =============================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 2rem;
+    z-index: 1;
+    width: 100%;
+    color: #f4f4f4;
+    background-color: #043a5a;
+    margin-bottom: 1rem;  
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+}
+
+.navbar ul {
+    display: flex;
+}
+
+.navbar i, h1 {
+    padding: 0 1rem
+}
+
+li {
+    list-style: none;
+    padding: 0 1rem;
+    transition: all 0.3s ease 0s;  
+}
+
+li i:hover, a:hover {
+    opacity: 0.5;  
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: #f4f4f4;
+}
+  
+  

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Component for the navbar.
-const Navbar = () => {
+const Header = () => {
 
     // The HTML that is being rendered.
     return (
@@ -28,4 +28,4 @@ const Navbar = () => {
 }
 
 // Exports
-export default Navbar;
+export default Header;
