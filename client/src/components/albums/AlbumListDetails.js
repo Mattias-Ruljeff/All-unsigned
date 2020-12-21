@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios"
 import { useHistory } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //Components
 import SongDetails from "./SongDetails"
@@ -17,7 +19,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     console.log(albumType)
 
     useEffect(() => {
-    axios.get(`/albums/songs`)
+    axios.get(`/albums/songs/${album.id}`)
         .then(res => {
             setSongs(res.data.result)
         })
@@ -32,6 +34,20 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         console.log('Info => id: ' + album.id)
     }
 
+    const handleFavourite = () => {
+        axios.post(`/albums/favourite/${album.id}`)
+        toast.success('🦄 New favourite album added!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    } 
+
+
     // Handles the changes in the task.
     const handleChange = (event) => {
         newSongDetail = {
@@ -45,11 +61,6 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         event.preventDefault();
 
         newSongDetail = {...newSongDetail, albumId:album.id, bandId}
-        console.log("-----")
-        console.log(newSongDetail)
-        console.log("-----")
-        console.log(songs)
-        console.log("-----")
         setSongs(...songs, newSongDetail)
         axios.post("/albums/songs/add", newSongDetail)
     }
@@ -112,6 +123,11 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                     Edit album
                 </button>
 
+                <button className="favourite-btn" onClick={handleFavourite} >
+                    &hearts;
+                </button>
+                <ToastContainer />
+
                 {form}
 
             <div>
@@ -123,8 +139,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                             <th>Length</th>
                         </tr>
 
-                        {
-                            songs !== null ? songs.map((song, index) => {
+                        {songs !== null ? songs.map((song, index) => {
                                 return (
                                     <SongDetails
                                         key={song.id}
@@ -133,15 +148,13 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                                         removeAlbumFromList={removeAlbumFromList}
                                     />
                                 )
-                            }) : ""
-                        }
+                            }) : ""}
                     </tbody>
                 </table>
             </div>
-            
         </div>
     );
 }
 
-// Exports.
+// Exports
 export default AlbumListDetails;

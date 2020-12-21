@@ -17,8 +17,8 @@ const AddBand = ({ addBandToList }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.get(`bands/${bands.name}`)
-        .then(res=> {
+        axios.get(`bands/searchband/${bands.name}`)
+        .then(res => {
             if (res.data.uniqueBand === false) {
                 setError({msg: res.data.msg})
             } else {

@@ -6,13 +6,13 @@ import { useHistory } from 'react-router-dom';
 // Components
 import AlbumListDetails from './AlbumListDetails';
 
-const AlbumList = ({bandId}) => {
+const AlbumList = ({ bandId }) => {
     const history = useHistory()
 
     let albumDetails = {}
 
     const [albums, setAlbums] = useState([]);
-    const [newAlbum, setNewAlbum] = useState({type:"Album"});
+    const [newAlbum, setNewAlbum] = useState({ type:"Album" });
     const [albumType, setAlbumType] = useState();
     const [form, setForm] = useState();
 
@@ -56,7 +56,7 @@ const AlbumList = ({bandId}) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        albumDetails = {...albumDetails, id:bandId}
+        albumDetails = { ...albumDetails, id:bandId }
         // setAlbums(...albums, albumDetails)
         axios.post("/albums/add", albumDetails)
         // history.push(`/`)
@@ -64,7 +64,7 @@ const AlbumList = ({bandId}) => {
 
     const addAlbumForm = () => {
         setForm(
-            <form name="newAlbum" onSubmit={handleSubmit} >
+            <form name="newAlbum" onSubmit={handleSubmit}>
 
                 <input
                     type="text"

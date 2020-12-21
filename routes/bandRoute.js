@@ -36,7 +36,7 @@ router.delete("/delete/:id", bandController.delete);
  * @desc    Checks a specific band in the database
  * @access  Public
  */
-router.get("/:id", bandController.checkSpecificBand);
+router.get("/searchband/:id", bandController.checkSpecificBand);
 
 /**
  * @route   GET band
@@ -44,6 +44,20 @@ router.get("/:id", bandController.checkSpecificBand);
  * @access  Public
  */
 router.get("/getband/:id", bandController.getSpecificBand);
+
+/**
+ * @route   POST band
+ * @desc    Adds a "like" to a specific band
+ * @access  Public
+ */
+router.post("/favourite/:id", bandController.favourite);
+
+/**
+ * @route   GET band
+ * @desc    Gets the most liked bands from the database
+ * @access  Public
+ */
+router.get("/topbands", bandController.getTopBands);
 
 
 // Exports

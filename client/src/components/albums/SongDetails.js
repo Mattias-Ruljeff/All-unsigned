@@ -11,7 +11,7 @@ const SongDetails = ({ song, index, removeBandFromList }) => {
         console.log('Info => id: ' + song.id)
     } 
 
-    // The HTML that is being rendered.
+    // The HTML that is being rendered
     return (
         <tr>
             <td>{index + 1}.</td>
@@ -21,5 +21,5 @@ const SongDetails = ({ song, index, removeBandFromList }) => {
     );
 }
 
-// Exports.
+// Exports
 export default SongDetails;

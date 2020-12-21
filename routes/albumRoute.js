@@ -43,7 +43,7 @@ router.get("/type", albumController.type);
  * @desc    Displays the songs
  * @access  Public
  */
-router.get("/songs", albumController.getAllSongs);
+router.get("/songs/:id", albumController.getAllSongs);
 
 /**
  * @route   POST song
@@ -66,6 +66,12 @@ router.get("/:id", albumController.checkSpecificAlbum);
  */
 router.get("/getalbum/:id", albumController.getSpecificAlbum);
 
+/**
+ * @route   POST album
+ * @desc    Adds a "like" to a specific band
+ * @access  Public
+ */
+router.post("/favourite/:id", albumController.favourite);
 
 // Exports
 module.exports = router;

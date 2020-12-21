@@ -35,8 +35,6 @@ albumController.create = async (req, res) => {
         const createAlbumQuery = `INSERT INTO album(name, band_id, genre, album_type_id, release_date) VALUES("${name}","${id}","${genre}", "${type}", "${date}")`
         await connection.query(createAlbumQuery)
 
-        // await connection.query(`INSERT INTO album(name, band_id, genre, album_type_id, release_date) VALUES("${name}","${id}","${genre}", "${type}", "${date}")`);
-
         res.status(200);
         res.json({
             msg: "Album was created",
@@ -82,7 +80,7 @@ albumController.delete = async (req, res) => {
 
 albumController.getAllSongs = async (req, res) => {
     try {
-        const selectAllSongsQuery = 'SELECT * FROM song'
+        const selectAllSongsQuery = `SELECT * FROM song WHERE album_id = "${req.params.id}"`
 
         await connection.query(selectAllSongsQuery,
         (error, result, fields) => {
@@ -143,11 +141,6 @@ albumController.createSong = async (req, res) => {
 
             connection.query(`INSERT INTO tracklist(album_id, song_id) VALUES("${albumId}","${result[0].id}")`);
 
-            // res.status(200)
-            // res.json({
-            //   msg: 'Fetching song id',
-            //   result
-            // })
         })
 
         res.status(200);
@@ -215,6 +208,22 @@ albumController.getSpecificAlbum = async (req, res) => {
                 })
             }
         })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+albumController.favourite = async (req, res) => {
+    try {
+        // const favouriteAlbumQuery = `UPDATE album SET favourite = favourite + 1 WHERE id = "${req.params.id}"`
+        connection.query(`UPDATE album SET favourite = favourite + 1 WHERE id = "${req.params.id}"`);
+
+        res.status(200);
+        res.json({
+            msg: "Album was favorited",
+        });
 
     } catch (error) {
         console.log(error);

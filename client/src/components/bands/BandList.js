@@ -4,7 +4,7 @@ import axios from 'axios';
 // Components
 import BandListDetails from './BandListDetails';
 
-const BandList = ({bands, removeBandFromList}) => {
+const BandList = ({ bands, removeBandFromList }) => {
 
     return (
         <div className="bandList">
@@ -14,7 +14,8 @@ const BandList = ({bands, removeBandFromList}) => {
                         <BandListDetails
                             key={band.id}
                             band={band}
-                            removeBandFromList={removeBandFromList} />
+                            removeBandFromList={removeBandFromList}
+                        />
                     )
                 })}
             </ul>

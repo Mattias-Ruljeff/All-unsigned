@@ -138,5 +138,45 @@ bandController.getSpecificBand = async (req, res) => {
     }
 };
 
+bandController.favourite = async (req, res) => {
+    try {
+        // const favouriteBandQuery = `UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`
+        connection.query(`UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`);
+
+        res.status(200);
+        res.json({
+            msg: "Band was favorited",
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+bandController.getTopBands = async (req, res) => {
+    try {
+        const getTopFiveBandsQuery = 'SELECT band.name AS band, album.name AS album FROM band LEFT JOIN album ON band.id = album.band_id ORDER BY band.favourite'
+
+        await connection.query(getTopFiveBandsQuery,
+            (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+            
+            res.status(200)
+            res.json({
+                msg: 'Fetching top five bands',
+                result
+            })
+
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
 // Exports
 module.exports = bandController;
