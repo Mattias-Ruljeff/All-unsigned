@@ -16,7 +16,7 @@ const SongDetails = ({ song, index, removeBandFromList }) => {
         <tr>
             <td>{index + 1}.</td>
             <td>{song.name}</td>
-            <td>{song.length}</td>
+            <td style={{textAlign: 'center'}} >{song.length}</td>
         </tr>
     );
 }

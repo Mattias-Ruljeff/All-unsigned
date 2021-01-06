@@ -59,6 +59,13 @@ router.post("/favourite/:id", bandController.favourite);
  */
 router.get("/topbands", bandController.getTopBands);
 
+/**
+ * @route   GET band
+ * @desc    Gets the most liked bands from the database
+ * @access  Public
+ */
+router.get("/totalbands", bandController.totalNumberOfBands);
+
 
 // Exports
 module.exports = router;

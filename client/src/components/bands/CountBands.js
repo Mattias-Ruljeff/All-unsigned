@@ -2,41 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // Components
-import AddBand from "../bands/AddBand";
 
+const CountBands = () => {
 
-const TopBands = () => {
-
-    const [topBands, setTopBands] = useState([]);
+    const [counter, setCounter] = useState([]);
 
     useEffect(() => {
-        axios.get('/bands/topbands')
+        axios.get('/bands/totalbands')
         .then(res => {
-            setTopBands(res.data.result)
+            setCounter(res.data.result)
         })
         .catch(error => {
             console.log(error)
         })
     }, [])
-
-    console.log(topBands)
-
+    console.log("counter")
+    console.log(counter)
     // The HTML that is being rendered.
     return (
-        <div className="topBandsWrapper">
-            <h2>Top 10 Bands</h2>
+        <div className="countBandsWrapper">
+            <h2>Total number of bands</h2>
             <table>
                 <tbody>
                     <tr>
-                        <th style={{width:"20px"}}>No.</th>
-                        <th>Band</th>
+                        <th>Amount</th>
                     </tr>
 
-                    {topBands !== null ? topBands.map(({name}, index) => {
+                    {counter !== null ? counter.map(({No}, index) => {
+
                             return (
                                 <tr key={index}>
-                                    <td>{index + 1}.</td>
-                                    <td>{name}</td>
+                                    <td>{No}</td>
                                 </tr>
                             )
                         }) : ""}
@@ -46,4 +42,4 @@ const TopBands = () => {
     );
 }
 
-export default TopBands;
+export default CountBands;

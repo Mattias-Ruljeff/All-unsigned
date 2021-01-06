@@ -10,7 +10,6 @@ const BandListDetails = ({ band, removeBandFromList }) => {
 
     const handleInfo = () => {
         history.push(`/bands/info/${band.id}`)
-        console.log('Info => id: ' + band.id)
     }
 
     const handleFavourite = () => {
@@ -28,18 +27,21 @@ const BandListDetails = ({ band, removeBandFromList }) => {
 
     // The HTML that is being rendered.
     return (
-        <div>
-            <div>
-                <div>Band: {band.name}</div>
+        <div className="bandCard">
+            <div className="bandCardName">
+                <div>Band:</div>
+                <div>{band.name}</div>
             </div>
 
-            <button className="info-btn" onClick={handleInfo} >
-                Info
-            </button>
-            
-            <button className="favourite-btn" onClick={handleFavourite} >
-                &hearts;
-            </button>
+            <div className="bandButton">
+                <button className="info-btn" onClick={handleInfo} >
+                    Info
+                </button>
+                
+                <button className="favourite-btn" onClick={handleFavourite} >
+                    &hearts;
+                </button>
+            </div>
 
             <ToastContainer />
         </div>

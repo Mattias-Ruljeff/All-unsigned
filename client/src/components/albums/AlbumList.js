@@ -15,6 +15,7 @@ const AlbumList = ({ bandId }) => {
     const [newAlbum, setNewAlbum] = useState({ type:"Album" });
     const [albumType, setAlbumType] = useState();
     const [form, setForm] = useState();
+    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         axios.get(`/albums`)
@@ -57,9 +58,17 @@ const AlbumList = ({ bandId }) => {
         event.preventDefault();
 
         albumDetails = { ...albumDetails, id:bandId }
-        // setAlbums(...albums, albumDetails)
         axios.post("/albums/add", albumDetails)
-        // history.push(`/`)
+        axios.get(`/albums`)
+        .then(res => {
+            setAlbums(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setAlbums([])
+            history.push("/404")
+        })
+        setForm("")
     }
 
     const addAlbumForm = () => {
@@ -121,24 +130,30 @@ const AlbumList = ({ bandId }) => {
     let list
     if (albums) {
         list = albums.map(album => {
-            return (
-                <AlbumListDetails
-                    key={album.id}
-                    album={album}
-                    removeAlbumFromList={removeAlbumFromList}
-                    bandId={bandId}
-                    albumType={albumType}
-                />
-            ) 
+            if (parseInt(bandId) === album.band_id) {
+                return (
+                    <AlbumListDetails
+                        key={album.id}
+                        album={album}
+                        removeAlbumFromList={removeAlbumFromList}
+                        bandId={bandId}
+                        albumType={albumType}
+                    />
+                ) 
+            } else {
+                return ""
+            }
         })
     }
 
     return (
-        <div className="bandList">
-            <ul>
-                <h2>Albums</h2>
-                <button onClick= {addAlbumForm}>Add new album</button>
+        <div className="albumList">
+            <div className="newAlbum">
+            <h2>Albums</h2>
+            <button onClick={addAlbumForm}>Add new album</button>
                 {form}
+            </div>
+            <ul>
                 {list}
             </ul>
         </div>

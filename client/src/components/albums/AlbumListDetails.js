@@ -12,13 +12,17 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     let history = useHistory();
     let newSongDetail = {}
     let albumTypeHere = ""
-
+    let newAlbumDetail = {}
+    
     const [form, setForm] = useState();
+    const [albumForm, setAlbumForm] = useState();
     const [songs, setSongs] = useState([]);
-
-    console.log(albumType)
-
+    const [modifiedAlbum, setModifiedAlbum] = useState([]);
+    const [genreName, setNewGenreName] = useState("");
+    const [name, setNewName] = useState("");
+    
     useEffect(() => {
+        
     axios.get(`/albums/songs/${album.id}`)
         .then(res => {
             setSongs(res.data.result)
@@ -26,6 +30,17 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         .catch(error => {
             console.log(error)
             setSongs([])
+            history.push("/404")
+        })
+        axios.get(`/albums/getalbum/${album.id}`)
+        .then(res => {
+            console.log("----------------------------")
+            console.log(res.data.result[0])
+            newAlbumDetail = res.data.result[0]
+        })
+        .catch(error => {
+            console.log(error)
+            setModifiedAlbum([])
             history.push("/404")
         })
     }, [])
@@ -49,10 +64,17 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
 
 
     // Handles the changes in the task.
-    const handleChange = (event) => {
+    const handleSongChange = (event) => {
         newSongDetail = {
             ...newSongDetail,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.value
+        }
+    }
+    // Handles the changes in the task.
+    const handleAlbumChange = (event) => {
+        newAlbumDetail = {
+            ...newAlbumDetail,
+            [event.target.name]: event.target.value
         }
     }
 
@@ -61,8 +83,25 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         event.preventDefault();
 
         newSongDetail = {...newSongDetail, albumId:album.id, bandId}
-        setSongs(...songs, newSongDetail)
+        // setSongs(...songs, newSongDetail)
+        axios.get(`/albums/songs/${album.id}`)
+        .then(res => {
+            setSongs(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setSongs([])
+            history.push("/404")
+        })
         axios.post("/albums/songs/add", newSongDetail)
+        setForm("")
+    }
+
+    const handleChangeSubmit = () => {
+        // event.preventDefault();
+        // console.log(genreName)
+        // axios.put(`/albums/edit/${album.id}`, modifiedAlbum)
+        // setForm("")
     }
 
     const addSongForm = () => {
@@ -78,7 +117,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                     className="form-task"
                     required
                     value={newSongDetail.name}
-                    onChange={handleChange}
+                    onChange={handleSongChange}
                 />
 
                 <input
@@ -88,7 +127,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                     className="form-task"
                     required
                     value= {newSongDetail.length}
-                    onChange={handleChange}
+                    onChange={handleSongChange}
                 />
 
                 <input
@@ -102,6 +141,66 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         )
     }
 
+    const editAlbumForm = () => {
+        setAlbumForm(
+            <>
+            <h3>Edit album</h3>
+            <form name="editAlbum" onSubmit={handleChangeSubmit} >
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter album name..."
+                className="form-task"
+                required
+                value={modifiedAlbum.name}
+                onChange={handleAlbumChange}
+            
+            />
+                <input
+                    type="text"
+                    name="genre"
+                    placeholder="Enter genre..."
+                    className="form-task"
+                    required
+                    value={modifiedAlbum.genre}
+                    onChange={handleAlbumChange}
+                />
+
+                <label htmlFor="albumtype">Choose album type</label>
+                <select
+                    id="albumtype"
+                    name="type" 
+                    onChange={handleAlbumChange} 
+                    required 
+                >
+                    {albumType.map((albumtype, index) => {
+                        const {id,type} = albumtype
+                        return <option key={index} value={type}>{type}</option>
+                    })}
+                </select>
+
+                <input
+                    type="date"
+                    name="date"
+                    className="form-date"
+                    required
+                    value={"2020-11-11"}
+                    onChange={handleAlbumChange}
+                />
+
+                <input
+                    type="submit"
+                    value="Submit"
+                    className="task-btn"
+                    onClick={handleChangeSubmit}
+                />
+
+            </form>
+            </>)
+        
+    }
+
     if (albumType) {
         albumType.forEach(albumType => {
             if (albumType.id === album.album_type_id) {
@@ -110,48 +209,63 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         });
     }
 
+    let songsList
+    if (songs) {
+        songsList = songs.map((song, index) => {
+            return (
+                <SongDetails
+                    key={song.id}
+                    index={index}
+                    song={song}
+                    removeAlbumFromList={removeAlbumFromList}
+                />
+            )
+        })
+    }
+
     // The HTML that is being rendered.
     return (
-        <div>
-            <div>
-                <div><b>Name:</b> {album.name}</div>
-                <div><b>Type:</b> {albumTypeHere}</div>
-                <div><b>Genre:</b> {album.genre}</div>
+        <div className="albumCard">
+            <div className="albumInfo">
+                <div>
+                    <div><b>Name:</b> {album.name}</div>
+                    <div><b>Type:</b> {albumTypeHere}</div>
+                    <div><b>Genre:</b> {album.genre}</div>
+
+                    <button key={album.id} className="info-btn" onClick={() => editAlbumForm()} >
+                        Edit album
+                    </button>
+                    {albumForm}
+                    {form}
+                </div>
+
+                <div className="albumButtons">
+                    <button className="info-btn" onClick={addSongForm} >
+                        Add song
+                    </button>
+
+
+                    <button className="favourite-btn" onClick={handleFavourite} >
+                        &hearts;
+                    </button>
+                </div>
             </div>
 
-                <button className="info-btn" onClick={addSongForm} >
-                    Edit album
-                </button>
-
-                <button className="favourite-btn" onClick={handleFavourite} >
-                    &hearts;
-                </button>
-                <ToastContainer />
-
-                {form}
-
-            <div>
+            
                 <table>
                     <tbody>
                         <tr>
-                            <th>No.</th>
+                            <th style={{width:"20px"}}>No.</th>
                             <th>Title</th>
-                            <th>Length</th>
+                            <th style={{width:"25px"}}>Length</th>
                         </tr>
 
-                        {songs !== null ? songs.map((song, index) => {
-                                return (
-                                    <SongDetails
-                                        key={song.id}
-                                        index={index}
-                                        song={song}
-                                        removeAlbumFromList={removeAlbumFromList}
-                                    />
-                                )
-                            }) : ""}
+                        {songsList}
                     </tbody>
                 </table>
-            </div>
+
+            <ToastContainer />
+            
         </div>
     );
 }

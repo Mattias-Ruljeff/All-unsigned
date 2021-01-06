@@ -49,7 +49,8 @@ albumController.create = async (req, res) => {
 albumController.edit = async (req, res) => {
     try {
         // const editAlbumQuery = `UPDATE band SET name WHERE id = "${req.body.name}"`
-        connection.query(`UPDATE band SET name WHERE id = "${req.body.name}"`);
+        console.log(req.body)
+        // connection.query(`UPDATE album SET name, genre, album_type_id, release_date WHERE id = "${req.body.name}"`);
 
         res.status(200);
         res.json({
@@ -131,18 +132,6 @@ albumController.createSong = async (req, res) => {
         const { name, length, albumId, bandId } = req.body
         await connection.query(`INSERT INTO song(name, length, band_id, album_id) VALUES("${name}","${length}", "${bandId}", "${albumId}")`);
 
-        const querySong = `SELECT id FROM song WHERE name = "${name}"`
-
-        await connection.query(querySong,
-        (error, result, fields) => {
-            if (error) {
-                throw error
-            }
-
-            connection.query(`INSERT INTO tracklist(album_id, song_id) VALUES("${albumId}","${result[0].id}")`);
-
-        })
-
         res.status(200);
         res.json({
             msg: "Song was added",
@@ -187,7 +176,8 @@ albumController.checkSpecificAlbum = async (req, res) => {
 
 albumController.getSpecificAlbum = async (req, res) => {
     try {
-        const getSpecificAlbumQuery = `SELECT * FROM band WHERE id = "${req.params.id}"`
+        console.log(req.params.id)
+        const getSpecificAlbumQuery = `SELECT * FROM album WHERE id = "${req.params.id}"`
 
         await connection.query(getSpecificAlbumQuery,
         (error, result, fields) => {
@@ -231,5 +221,52 @@ albumController.favourite = async (req, res) => {
     }
 };
 
+albumController.getTopAlbums = async (req, res) => {
+    try {
+        const getTopFiveAlbumsQuery = 'SELECT band.name AS band, album.name AS album, album_type.type AS type, album.genre AS genre FROM album LEFT JOIN band ON album.band_id = band.id LEFT JOIN album_type ON album.album_type_id = album_type.id ORDER BY album.favourite DESC LIMIT 10'
+
+        await connection.query(getTopFiveAlbumsQuery,
+            (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+            
+            res.status(200)
+            res.json({
+                msg: 'Fetching top five albums',
+                result
+            })
+
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+albumController.getNumberOfAlbums = async (req, res) => {
+    try {
+        const getTopFiveAlbumsQuery = 'SELECT COUNT(album.name) AS No, album_type.type AS Type FROM album LEFT JOIN album_type ON album.album_type_id = album_type.id GROUP BY album.album_type_id'
+
+        await connection.query(getTopFiveAlbumsQuery,
+            (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+            
+            res.status(200)
+            res.json({
+                msg: 'Fetching total amounts of albums',
+                result
+            })
+
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
 // Exports
 module.exports = albumController;

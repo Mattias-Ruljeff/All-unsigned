@@ -37,25 +37,31 @@ const BandInfo = (props) => {
         displayLoadingOrBand = <p>Loading band...</p>
     } else {
         bands.map(band => {
-            return displayLoadingOrBand = <p key={band.id}> {band.name} </p>
+            return displayLoadingOrBand = <h1 key={band.id}> {band.name} </h1>
         })
     }
 
     return (
         <div className="bandInfo">
 
-            {displayLoadingOrBand}
+            <div className="bandName">
+                {displayLoadingOrBand}
 
-            <button className="edit-btn" onClick={() => console.log("Edit => id: " + band.id)} >
-                Edit
-            </button>
+                <div>
+                    <button className="edit-btn" onClick={() => console.log("Edit => id: " + band.id)} >
+                        Edit
+                    </button>
 
-            <button className="remove-btn" onClick={handleRemove} >
-                Remove
-            </button>
+                    <button className="remove-btn" onClick={handleRemove} >
+                        Remove
+                    </button>
 
+                    <button className="back-btn" onClick={() => {history.push('/bands')}}>
+                        Go back
+                    </button>
+                </div>
+            </div>
             <AlbumList bandId={band} />
-
         </div>
     )
 }

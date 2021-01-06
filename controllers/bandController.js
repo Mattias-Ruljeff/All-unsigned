@@ -90,13 +90,13 @@ bandController.checkSpecificBand = async (req, res) => {
             if (Object.keys(result).length === 0) {
                 res.status(200)
                 res.json({
-                    msg: "Band name is not availiable",
+                    msg: "Band name is availiable",
                     uniqueBand : true
                 })
                 
             } else {
                 res.json({
-                    msg: 'Band name is availiable',
+                    msg: 'Band name is not availiable',
                     uniqueBand : false
                 })
             }
@@ -156,7 +156,14 @@ bandController.favourite = async (req, res) => {
 
 bandController.getTopBands = async (req, res) => {
     try {
-        const getTopFiveBandsQuery = 'SELECT band.name AS band, album.name AS album FROM band LEFT JOIN album ON band.id = album.band_id ORDER BY band.favourite'
+        await connection.query('CREATE OR REPLACE VIEW topbands AS SELECT name FROM band ORDER BY band.favourite DESC LIMIT 10',
+            (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+        })
+
+        const getTopFiveBandsQuery = 'SELECT * FROM topbands'
 
         await connection.query(getTopFiveBandsQuery,
             (error, result, fields) => {
@@ -166,11 +173,35 @@ bandController.getTopBands = async (req, res) => {
             
             res.status(200)
             res.json({
-                msg: 'Fetching top five bands',
+                msg: 'Fetching top ten bands',
                 result
             })
 
         })
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ msg: "Error: " + error });
+    }
+};
+
+bandController.totalNumberOfBands = async (req, res) => {
+    try {
+        // const favouriteBandQuery = `UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`
+        connection.query('SELECT COUNT(band.id) AS No FROM band',
+        (error, result, fields) => {
+            if (error) {
+                throw error
+            }
+
+            res.status(200);
+            res.json({
+                msg: "Total number of bands was counted",
+                result
+            });
+
+        })
+
 
     } catch (error) {
         console.log(error);

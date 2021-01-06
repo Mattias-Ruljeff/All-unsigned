@@ -5,38 +5,43 @@ import axios from "axios";
 import AddBand from "../bands/AddBand";
 
 
-const TopBands = () => {
+const TopAlbums = () => {
 
-    const [topBands, setTopBands] = useState([]);
+    const [topAlbums, setTopAlbums] = useState([]);
 
     useEffect(() => {
-        axios.get('/bands/topbands')
+        axios.get('/albums/topalbums')
         .then(res => {
-            setTopBands(res.data.result)
+            setTopAlbums(res.data.result)
         })
         .catch(error => {
             console.log(error)
         })
     }, [])
 
-    console.log(topBands)
-
     // The HTML that is being rendered.
     return (
-        <div className="topBandsWrapper">
-            <h2>Top 10 Bands</h2>
+        <div className="topAlbumsWrapper">
+            <h2>Top 10 Records</h2>
             <table>
                 <tbody>
                     <tr>
                         <th style={{width:"20px"}}>No.</th>
                         <th>Band</th>
+                        <th>Album</th>
+                        <th>Type</th>
+                        <th>Genre</th>
+
                     </tr>
 
-                    {topBands !== null ? topBands.map(({name}, index) => {
+                    {topAlbums !== null ? topAlbums.map(({band, album, type, genre}, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}.</td>
-                                    <td>{name}</td>
+                                    <td>{band}</td>
+                                    <td>{album}</td>
+                                    <td>{type}</td>
+                                    <td>{genre}</td>
                                 </tr>
                             )
                         }) : ""}
@@ -46,4 +51,4 @@ const TopBands = () => {
     );
 }
 
-export default TopBands;
+export default TopAlbums;

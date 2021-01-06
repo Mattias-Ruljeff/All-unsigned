@@ -53,11 +53,12 @@ router.get("/songs/:id", albumController.getAllSongs);
 router.post("/songs/add", albumController.createSong);
 
 /**
- * @route   GET album
- * @desc    Checks a specific album in the database
+ * @route   GET topAlbums
+ * @desc    Gets the most liked bands from the database
  * @access  Public
  */
-router.get("/:id", albumController.checkSpecificAlbum);
+router.get("/topalbums", albumController.getTopAlbums);
+
 
 /**
  * @route   GET album
@@ -67,11 +68,26 @@ router.get("/:id", albumController.checkSpecificAlbum);
 router.get("/getalbum/:id", albumController.getSpecificAlbum);
 
 /**
+ * @route   GET album
+ * @desc    Gets a specific album in the database
+ * @access  Public
+ */
+router.get("/getnumberofalbums/", albumController.getNumberOfAlbums);
+
+/**
  * @route   POST album
  * @desc    Adds a "like" to a specific band
  * @access  Public
  */
 router.post("/favourite/:id", albumController.favourite);
+
+
+/**
+ * @route   GET album
+ * @desc    Checks a specific album in the database
+ * @access  Public
+ */
+router.get("/:id", albumController.checkSpecificAlbum);
 
 // Exports
 module.exports = router;
