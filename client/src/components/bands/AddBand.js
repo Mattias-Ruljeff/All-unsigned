@@ -56,7 +56,6 @@ const AddBand = ({ addBandToList }) => {
                 />
 
                 <input type="submit" value="Submit" />
-
             </form>
 
             { error.msg !== null ? errorMSG : '' }

@@ -19,6 +19,7 @@ const BandPage = () => {
         .catch(error => {
             console.log(error)
         })
+        
     }, [])
 
     const addBandToList = () => {

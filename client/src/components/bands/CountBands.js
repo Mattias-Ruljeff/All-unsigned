@@ -15,9 +15,10 @@ const CountBands = () => {
         .catch(error => {
             console.log(error)
         })
+
     }, [])
-    console.log("counter")
-    console.log(counter)
+
+
     // The HTML that is being rendered.
     return (
         <div className="countBandsWrapper">
@@ -29,13 +30,12 @@ const CountBands = () => {
                     </tr>
 
                     {counter !== null ? counter.map(({No}, index) => {
-
-                            return (
-                                <tr key={index}>
-                                    <td>{No}</td>
-                                </tr>
-                            )
-                        }) : ""}
+                        return (
+                            <tr key={index}>
+                                <td>{No}</td>
+                            </tr>
+                        )
+                    }) : ""}
                 </tbody>
             </table>
         </div>

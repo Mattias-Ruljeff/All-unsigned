@@ -22,12 +22,12 @@ const BandInfo = (props) => {
             setBands([])
             history.push("/404")
         })
+
     }, [])
 
     // Removes the task with the specific id
     const handleRemove = () => {
         axios.delete(`/bands/delete/${band}`)
-        console.log('Delete => id: ' + band)
         history.push("/bands")
     }
 
@@ -37,7 +37,7 @@ const BandInfo = (props) => {
         displayLoadingOrBand = <p>Loading band...</p>
     } else {
         bands.map(band => {
-            return displayLoadingOrBand = <h1 key={band.id}> {band.name} </h1>
+            return displayLoadingOrBand = <h1 key={band.id}>{band.name}</h1>
         })
     }
 

@@ -22,8 +22,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     const [name, setNewName] = useState("");
     
     useEffect(() => {
-        
-    axios.get(`/albums/songs/${album.id}`)
+        axios.get(`/albums/songs/${album.id}`)
         .then(res => {
             setSongs(res.data.result)
         })
@@ -32,6 +31,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
             setSongs([])
             history.push("/404")
         })
+
         axios.get(`/albums/getalbum/${album.id}`)
         .then(res => {
             console.log("----------------------------")
@@ -43,6 +43,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
             setModifiedAlbum([])
             history.push("/404")
         })
+
     }, [])
 
     const handleInfo = () => {
@@ -51,7 +52,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
 
     const handleFavourite = () => {
         axios.post(`/albums/favourite/${album.id}`)
-        toast.success('🦄 New favourite album added!', {
+        toast.success('New favourite album added!', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -93,6 +94,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
             setSongs([])
             history.push("/404")
         })
+
         axios.post("/albums/songs/add", newSongDetail)
         setForm("")
     }
@@ -107,36 +109,36 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     const addSongForm = () => {
         setForm(
             <>
-            <h3>Add new song:</h3>
-            <form name="newSong" onSubmit={handleSubmit} >
+                <h3>Add new song:</h3>
+                <form name="newSong" onSubmit={handleSubmit} >
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter song title..."
-                    className="form-task"
-                    required
-                    value={newSongDetail.name}
-                    onChange={handleSongChange}
-                />
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter song title..."
+                        className="form-task"
+                        required
+                        value={newSongDetail.name}
+                        onChange={handleSongChange}
+                    />
 
-                <input
-                    type="number"
-                    name="length"
-                    placeholder="Enter song length..."
-                    className="form-task"
-                    required
-                    value= {newSongDetail.length}
-                    onChange={handleSongChange}
-                />
+                    <input
+                        type="number"
+                        name="length"
+                        placeholder="Enter song length..."
+                        className="form-task"
+                        required
+                        value= {newSongDetail.length}
+                        onChange={handleSongChange}
+                    />
 
-                <input
-                    type="submit"
-                    value="Submit"
-                    className="task-btn"
-                />
+                    <input
+                        type="submit"
+                        value="Submit"
+                        className="task-btn"
+                    />
 
-            </form>
+                </form>
             </>
         )
     }
@@ -144,61 +146,61 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     const editAlbumForm = () => {
         setAlbumForm(
             <>
-            <h3>Edit album</h3>
-            <form name="editAlbum" onSubmit={handleChangeSubmit} >
+                <h3>Edit album</h3>
+                <form name="editAlbum" onSubmit={handleChangeSubmit} >
 
-            <input
-                type="text"
-                name="name"
-                placeholder="Enter album name..."
-                className="form-task"
-                required
-                value={modifiedAlbum.name}
-                onChange={handleAlbumChange}
-            
-            />
-                <input
-                    type="text"
-                    name="genre"
-                    placeholder="Enter genre..."
-                    className="form-task"
-                    required
-                    value={modifiedAlbum.genre}
-                    onChange={handleAlbumChange}
-                />
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter album name..."
+                        className="form-task"
+                        required
+                        value={modifiedAlbum.name}
+                        onChange={handleAlbumChange}
+                    
+                    />
 
-                <label htmlFor="albumtype">Choose album type</label>
-                <select
-                    id="albumtype"
-                    name="type" 
-                    onChange={handleAlbumChange} 
-                    required 
-                >
-                    {albumType.map((albumtype, index) => {
-                        const {id,type} = albumtype
-                        return <option key={index} value={type}>{type}</option>
-                    })}
-                </select>
+                    <input
+                        type="text"
+                        name="genre"
+                        placeholder="Enter genre..."
+                        className="form-task"
+                        required
+                        value={modifiedAlbum.genre}
+                        onChange={handleAlbumChange}
+                    />
 
-                <input
-                    type="date"
-                    name="date"
-                    className="form-date"
-                    required
-                    value={"2020-11-11"}
-                    onChange={handleAlbumChange}
-                />
+                    <label htmlFor="albumtype">Choose album type</label>
+                    <select
+                        id="albumtype"
+                        name="type" 
+                        onChange={handleAlbumChange} 
+                        required 
+                    >
+                        {albumType.map((albumtype, index) => {
+                            const {id,type} = albumtype
+                            return <option key={index} value={type}>{type}</option>
+                        })}
+                    </select>
 
-                <input
-                    type="submit"
-                    value="Submit"
-                    className="task-btn"
-                    onClick={handleChangeSubmit}
-                />
+                    <input
+                        type="date"
+                        name="date"
+                        className="form-date"
+                        required
+                        value={"2020-11-11"}
+                        onChange={handleAlbumChange}
+                    />
 
-            </form>
-            </>)
-        
+                    <input
+                        type="submit"
+                        value="Submit"
+                        className="task-btn"
+                        onClick={handleChangeSubmit}
+                    />
+                </form>
+            </>
+        )
     }
 
     if (albumType) {
@@ -251,21 +253,19 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                 </div>
             </div>
 
-            
-                <table>
-                    <tbody>
-                        <tr>
-                            <th style={{width:"20px"}}>No.</th>
-                            <th>Title</th>
-                            <th style={{width:"25px"}}>Length</th>
-                        </tr>
+            <table>
+                <tbody>
+                    <tr>
+                        <th style={{width:"20px"}}>No.</th>
+                        <th>Title</th>
+                        <th style={{width:"25px"}}>Length</th>
+                    </tr>
 
-                        {songsList}
-                    </tbody>
-                </table>
+                    {songsList}
+                </tbody>
+            </table>
 
             <ToastContainer />
-            
         </div>
     );
 }

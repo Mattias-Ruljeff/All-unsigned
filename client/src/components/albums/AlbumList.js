@@ -37,6 +37,7 @@ const AlbumList = ({ bandId }) => {
             setAlbumType([])
             history.push("/404")
         })
+
     }, [])
 
     const removeAlbumFromList = (albumToRemove) => {
@@ -68,6 +69,7 @@ const AlbumList = ({ bandId }) => {
             setAlbums([])
             history.push("/404")
         })
+
         setForm("")
     }
 
@@ -149,10 +151,11 @@ const AlbumList = ({ bandId }) => {
     return (
         <div className="albumList">
             <div className="newAlbum">
-            <h2>Albums</h2>
-            <button onClick={addAlbumForm}>Add new album</button>
+                <h2>Albums</h2>
+                <button onClick={addAlbumForm}>Add new album</button>
                 {form}
             </div>
+            
             <ul>
                 {list}
             </ul>

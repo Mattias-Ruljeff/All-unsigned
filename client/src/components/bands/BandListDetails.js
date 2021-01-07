@@ -14,7 +14,7 @@ const BandListDetails = ({ band, removeBandFromList }) => {
 
     const handleFavourite = () => {
         axios.post(`/bands/favourite/${band.id}`)
-        toast.success('🦄 New favourite band added!', {
+        toast.success('New favourite band added!', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,

@@ -17,6 +17,7 @@ const TopAlbums = () => {
         .catch(error => {
             console.log(error)
         })
+
     }, [])
 
     // The HTML that is being rendered.
@@ -31,20 +32,19 @@ const TopAlbums = () => {
                         <th>Album</th>
                         <th>Type</th>
                         <th>Genre</th>
-
                     </tr>
 
                     {topAlbums !== null ? topAlbums.map(({band, album, type, genre}, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index + 1}.</td>
-                                    <td>{band}</td>
-                                    <td>{album}</td>
-                                    <td>{type}</td>
-                                    <td>{genre}</td>
-                                </tr>
-                            )
-                        }) : ""}
+                        return (
+                            <tr key={index}>
+                                <td>{index + 1}.</td>
+                                <td>{band}</td>
+                                <td>{album}</td>
+                                <td>{type}</td>
+                                <td>{genre}</td>
+                            </tr>
+                        )
+                    }) : ""}
                 </tbody>
             </table>
         </div>

@@ -17,9 +17,9 @@ const TopBands = () => {
         .catch(error => {
             console.log(error)
         })
+
     }, [])
 
-    console.log(topBands)
 
     // The HTML that is being rendered.
     return (
@@ -33,13 +33,13 @@ const TopBands = () => {
                     </tr>
 
                     {topBands !== null ? topBands.map(({name}, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index + 1}.</td>
-                                    <td>{name}</td>
-                                </tr>
-                            )
-                        }) : ""}
+                        return (
+                            <tr key={index}>
+                                <td>{index + 1}.</td>
+                                <td>{name}</td>
+                            </tr>
+                        )
+                    }) : ""}
                 </tbody>
             </table>
         </div>

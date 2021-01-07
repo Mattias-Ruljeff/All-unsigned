@@ -14,6 +14,7 @@ const Home = () => {
         <div className="wrapper">
             <TopBands />
             <TopAlbums />
+            
             <div className="countWrapper">
                 <CountBands />
                 <CountAlbums />
