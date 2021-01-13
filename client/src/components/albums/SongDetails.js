@@ -1,15 +1,7 @@
 import React from 'react';
-import axios from "axios"
-import { useHistory } from 'react-router-dom';
 
 // Handles the details of a specific task.
-const SongDetails = ({ song, index, removeBandFromList }) => {
-    let history = useHistory();
-
-    const handleInfo = () => {
-        history.push(`/bands/info/${song.id}`)
-        console.log('Info => id: ' + song.id)
-    } 
+const SongDetails = ({ song, index, removeSongFromList, addSongForm }) => {
 
     // The HTML that is being rendered
     return (
@@ -17,6 +9,15 @@ const SongDetails = ({ song, index, removeBandFromList }) => {
             <td>{index + 1}.</td>
             <td>{song.name}</td>
             <td style={{textAlign: 'center'}} >{song.length}</td>
+            <td>
+                <button className="info-btn" onClick={() => addSongForm(song, "Edit song", true, song.id)} >
+                    Edit
+                </button>
+                
+                <button className="info-btn" onClick={() => removeSongFromList(song.id)} >
+                    Delete
+                </button>
+            </td>
         </tr>
     );
 }

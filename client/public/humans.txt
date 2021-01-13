@@ -5,10 +5,17 @@ GitLab: os222di
 Contact: os222di@student.lnu.se
 Location: Linneus Univeristy, Kalmar
 
+Designer & Developer: Mattias Ruljeff
+GitHub: ---
+GitLab: ---
+Contact: mr223mi@student.lnu.se
+Location: Linneus Univeristy, Kalmar
+
 /* THANKS */
+Google <3
 
 /* SITE */
-Last update: 2020/12/18
+Last update: 2021/01/13
 Language: English
 Doctype: HTML5
 IDE: VSC, JavaScript & Node

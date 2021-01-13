@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //Components
 import SongDetails from "./SongDetails"
+import SongForm from "./SongForm"
+import AlbumForm from "./AlbumForm"
 
 // Handles the details of a specific task.
 const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => {
@@ -14,12 +16,10 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     let albumTypeHere = ""
     let newAlbumDetail = {}
     
-    const [form, setForm] = useState();
+    const [songForm, setSongForm] = useState();
     const [albumForm, setAlbumForm] = useState();
     const [songs, setSongs] = useState([]);
     const [modifiedAlbum, setModifiedAlbum] = useState([]);
-    const [genreName, setNewGenreName] = useState("");
-    const [name, setNewName] = useState("");
     
     useEffect(() => {
         axios.get(`/albums/songs/${album.id}`)
@@ -34,9 +34,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
 
         axios.get(`/albums/getalbum/${album.id}`)
         .then(res => {
-            console.log("----------------------------")
-            console.log(res.data.result[0])
-            newAlbumDetail = res.data.result[0]
+            setModifiedAlbum(res.data.result[0])
         })
         .catch(error => {
             console.log(error)
@@ -46,13 +44,9 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
 
     }, [])
 
-    const handleInfo = () => {
-        console.log('Info => id: ' + album.id)
-    }
-
     const handleFavourite = () => {
         axios.post(`/albums/favourite/${album.id}`)
-        toast.success('New favourite album added!', {
+        toast.success('You liked the album!', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -63,7 +57,6 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         });
     } 
 
-
     // Handles the changes in the task.
     const handleSongChange = (event) => {
         newSongDetail = {
@@ -71,20 +64,26 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
             [event.target.name]: event.target.value
         }
     }
+
+    const removeSongFromList = (songToRemove) => {
+        axios.delete(`/albums/song/delete/${songToRemove}`)
+        const removeSong = songs.filter(song => song.id !== songToRemove)
+        setSongs(removeSong)
+    }
+
     // Handles the changes in the task.
     const handleAlbumChange = (event) => {
         newAlbumDetail = {
-            ...newAlbumDetail,
+            ...modifiedAlbum,
             [event.target.name]: event.target.value
         }
     }
 
     // Handles the data when submiting.
-    const handleSubmit = (event) => {
+    const handleSubmit = (event, editSong, id) => {
         event.preventDefault();
 
-        newSongDetail = {...newSongDetail, albumId:album.id, bandId}
-        // setSongs(...songs, newSongDetail)
+        newSongDetail = {...newSongDetail, albumId:album.id}
         axios.get(`/albums/songs/${album.id}`)
         .then(res => {
             setSongs(res.data.result)
@@ -95,112 +94,85 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
             history.push("/404")
         })
 
-        axios.post("/albums/songs/add", newSongDetail)
-        setForm("")
+        if (editSong) {
+            axios.post(`/albums/songs/edit/${id}`, newSongDetail)
+        } else {
+            axios.post("/albums/songs/add", newSongDetail)
+        }
+
+        setSongForm("")
     }
 
-    const handleChangeSubmit = () => {
-        // event.preventDefault();
-        // console.log(genreName)
-        // axios.put(`/albums/edit/${album.id}`, modifiedAlbum)
-        // setForm("")
+    const handleAlbumChangeSubmit = (event) => {
+        event.preventDefault();
+
+        axios.post(`/albums/edit/${album.id}`, newAlbumDetail)
+        setSongForm("")
+
+        axios.get(`/albums/songs/${album.id}`)
+        .then(res => {
+            setSongs(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setSongs([])
+            history.push("/404")
+        })
     }
 
-    const addSongForm = () => {
-        setForm(
-            <>
-                <h3>Add new song:</h3>
-                <form name="newSong" onSubmit={handleSubmit} >
-
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Enter song title..."
-                        className="form-task"
-                        required
-                        value={newSongDetail.name}
-                        onChange={handleSongChange}
+    const addSongForm = (event, string, editSong, id) => {
+        if (!songForm) {
+            if (editSong) {
+                axios.get(`/albums/getonesong/${id}`)
+                .then(res => {
+                    newSongDetail = res.data.result[0]
+                    setSongForm(
+                        <SongForm
+                            handleSubmit={handleSubmit}
+                            event={event} 
+                            string={string} 
+                            newSongDetail={newSongDetail} 
+                            handleSongChange={handleSongChange} 
+                            editSong={true} 
+                            id={id}
+                        />
+                    )
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            
+            } else {
+                setSongForm(
+                    <SongForm 
+                        handleSubmit={handleSubmit} 
+                        event={event} 
+                        string={string} 
+                        newSongDetail={newSongDetail} 
+                        handleSongChange={handleSongChange} 
+                        editSong={false} 
+                        id={null}
                     />
+                )
+            }
 
-                    <input
-                        type="number"
-                        name="length"
-                        placeholder="Enter song length..."
-                        className="form-task"
-                        required
-                        value= {newSongDetail.length}
-                        onChange={handleSongChange}
-                    />
-
-                    <input
-                        type="submit"
-                        value="Submit"
-                        className="task-btn"
-                    />
-
-                </form>
-            </>
-        )
+        } else {
+            setSongForm("")
+        }
     }
 
-    const editAlbumForm = () => {
-        setAlbumForm(
-            <>
-                <h3>Edit album</h3>
-                <form name="editAlbum" onSubmit={handleChangeSubmit} >
-
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Enter album name..."
-                        className="form-task"
-                        required
-                        value={modifiedAlbum.name}
-                        onChange={handleAlbumChange}
-                    
-                    />
-
-                    <input
-                        type="text"
-                        name="genre"
-                        placeholder="Enter genre..."
-                        className="form-task"
-                        required
-                        value={modifiedAlbum.genre}
-                        onChange={handleAlbumChange}
-                    />
-
-                    <label htmlFor="albumtype">Choose album type</label>
-                    <select
-                        id="albumtype"
-                        name="type" 
-                        onChange={handleAlbumChange} 
-                        required 
-                    >
-                        {albumType.map((albumtype, index) => {
-                            const {id,type} = albumtype
-                            return <option key={index} value={type}>{type}</option>
-                        })}
-                    </select>
-
-                    <input
-                        type="date"
-                        name="date"
-                        className="form-date"
-                        required
-                        value={"2020-11-11"}
-                        onChange={handleAlbumChange}
-                    />
-
-                    <input
-                        type="submit"
-                        value="Submit"
-                        className="task-btn"
-                        onClick={handleChangeSubmit}
-                    />
-                </form>
-            </>
-        )
+    const editAlbumForm = (e) => {
+        if (!albumForm) {
+            setAlbumForm(
+                <AlbumForm 
+                    handleAlbumChangeSubmit={handleAlbumChangeSubmit}
+                    modifiedAlbum={modifiedAlbum} 
+                    handleAlbumChange={handleAlbumChange}
+                    albumType={albumType}
+                    newAlbumDetail={newAlbumDetail}
+                />
+            )
+        } else { setAlbumForm("")}
     }
 
     if (albumType) {
@@ -219,7 +191,8 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                     key={song.id}
                     index={index}
                     song={song}
-                    removeAlbumFromList={removeAlbumFromList}
+                    removeSongFromList={removeSongFromList}
+                    addSongForm={addSongForm}
                 />
             )
         })
@@ -228,44 +201,60 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
     // The HTML that is being rendered.
     return (
         <div className="albumCard">
-            <div className="albumInfo">
-                <div>
-                    <div><b>Name:</b> {album.name}</div>
-                    <div><b>Type:</b> {albumTypeHere}</div>
-                    <div><b>Genre:</b> {album.genre}</div>
+            <div className="albumInfoWindow">
 
-                    <button key={album.id} className="info-btn" onClick={() => editAlbumForm()} >
-                        Edit album
-                    </button>
+                <button className="favourite-btn-album" onClick={handleFavourite} >
+                    &hearts;
+                </button>
+
+                <div className="albumnInfo">
+                    <p><b>Name:</b> {album.name}</p>
+                    <p><b>Type:</b> {albumTypeHere}</p>
+                    <p><b>Genre:</b> {album.genre}</p>
+                    <p><b>Release date:</b> {album.release_date.substring(0,10)}</p>
+
+                    <div className="albumInfoButtons">
+                        <button className="info-btn" onClick={() => editAlbumForm()} >
+                            Edit album
+                        </button>
+
+                        <button className="info-btn" onClick={() => removeAlbumFromList(album.id)} >
+                            Delete album
+                        </button>
+                    </div>
+
                     {albumForm}
-                    {form}
-                </div>
 
-                <div className="albumButtons">
-                    <button className="info-btn" onClick={addSongForm} >
-                        Add song
-                    </button>
-
-
-                    <button className="favourite-btn" onClick={handleFavourite} >
-                        &hearts;
-                    </button>
                 </div>
             </div>
 
-            <table>
-                <tbody>
-                    <tr>
-                        <th style={{width:"20px"}}>No.</th>
-                        <th>Title</th>
-                        <th style={{width:"25px"}}>Length</th>
-                    </tr>
+            <div className="songTable">
+                <div className="addNewSong">
+                    <h3>Songs</h3>
+                    <button className="info-btn" onClick={addSongForm} >
+                                Add new song
+                    </button>
+                </div>
 
-                    {songsList}
-                </tbody>
-            </table>
+                {songForm}
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th style={{width:"20px"}}>No.</th>
+                            <th>Title</th>
+                            <th style={{width:"25px"}}>Length</th>
+                            <th style={{width:"140px"}}>Edit/delete</th>
+                        </tr>
+
+                        {songsList}
+
+                    </tbody>
+                </table>
+            </div>
 
             <ToastContainer />
+
         </div>
     );
 }

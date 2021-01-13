@@ -4,13 +4,16 @@ import axios from 'axios';
 
 // Components
 import AlbumList from '../albums/AlbumList';
+import BandForm from "./BandForm"
 
 
 const BandInfo = (props) => {
     let history = useHistory();
     const band = props.match.params.id
+    let newBandName = ""
 
     const [bands, setBands] = useState([]);
+    const [form, setForm] = useState()
 
     useEffect(() => {
         axios.get(`/bands/getband/${band}`)
@@ -25,6 +28,40 @@ const BandInfo = (props) => {
 
     }, [])
 
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        axios.post(`/bands/edit/${band}`, {bands, newBandName})
+        axios.get(`/bands/getband/${band}`)
+        .then(res => {
+            setBands(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setBands([])
+            history.push("/404")
+        })
+        setForm("")
+    }
+    
+    const handleChange = (event) => {
+        newBandName = event.target.value
+    }
+
+    const editButtonClicked = () => {
+        if (!form) {
+            setForm(
+                <BandForm 
+                    bands={bands[0].name}
+                    handleSubmit={handleSubmit}
+                    handleChange={handleChange}
+                />
+            )
+        } else {
+            setForm("")
+        }
+    }
+
     // Removes the task with the specific id
     const handleRemove = () => {
         axios.delete(`/bands/delete/${band}`)
@@ -36,9 +73,7 @@ const BandInfo = (props) => {
     if (Object.keys(bands).length === 0) {
         displayLoadingOrBand = <p>Loading band...</p>
     } else {
-        bands.map(band => {
-            return displayLoadingOrBand = <h1 key={band.id}>{band.name}</h1>
-        })
+        displayLoadingOrBand = <h1 key={bands[0].id}> {newBandName !== "" ? newBandName : bands[0].name} </h1>
     }
 
     return (
@@ -48,7 +83,7 @@ const BandInfo = (props) => {
                 {displayLoadingOrBand}
 
                 <div>
-                    <button className="edit-btn" onClick={() => console.log("Edit => id: " + band.id)} >
+                    <button className="edit-btn" onClick={editButtonClicked } >
                         Edit
                     </button>
 
@@ -60,6 +95,7 @@ const BandInfo = (props) => {
                         Go back
                     </button>
                 </div>
+                {form}
             </div>
             <AlbumList bandId={band} />
         </div>

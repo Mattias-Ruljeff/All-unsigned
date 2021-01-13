@@ -20,8 +20,11 @@ body {
 }
 
 button {
-    background-color: #64e469; /* Green */
+    background-color: rgb(8, 216, 8); /* Green */
     border-radius: 5px;
+    border: black 1px solid;
+    border-top: rgba(0, 0, 0, 0) 1px solid;
+    border-left: rgba(0, 0, 0, 0) 1px solid;
     color: white;
     padding: 5px 10px;
     text-align: center;
@@ -31,8 +34,10 @@ button {
   }
 
   button:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: #38883a; /* Green */
     color: white;
+    border:rgba(0, 0, 0) 1px solid;
+    padding: 5px 10px;
   }
   
 body, html {
@@ -125,6 +130,22 @@ a {
     flex-direction: column;
     align-items: center;
 
+}
+
+/* Loading
+=============================== */
+
+.loading {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f1f1f170;
+    border: 1px solid #d3d3d3;
+    border: black 2px solid;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 5px #acacac;
+    margin-top: 50px;
+    padding: 20px;
 }
 
 /* Table
@@ -308,6 +329,7 @@ th {
     border-radius: 0.5em;
     box-shadow: 0px 0px 5px #acacac;
     margin-top: 10px;
+    margin-bottom: 10px;
     padding: 20px;
 }
 
@@ -343,20 +365,87 @@ th {
 
 }
 
-.albumInfo {
+.albumInfoWindow {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+    background-color: #f1f1f170;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 5px #acacac;
+    padding: 5px;
 }
+
+.albumnInfo {
+    width: 100%;
+}
+
+.favourite-btn-album {
+    height: 30px;
+    margin-right: 5px;
+}
+.favourite-btn-album:hover {
+    height: 30px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border:rgba(0, 0, 0) 1px solid;
+    padding: 5px 10px;
+}
+
 .albumButtons {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     width: 30%
 }
-.albumButtons button{
-    width: 100px
+
+.editAlbumWindow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 0.5em;
+    border-bottom: black 1px solid;
+    background-color: #86868670;
+    padding: 5px;
+}
+
+/* Song info
+=============================== */
+.songTable {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 5px;
+    background-color: #f1f1f170;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 5px #acacac;
+    padding: 5px;
+}
+.addNewSong {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5em;
+    padding: 5px;
+}
+
+.newSongWindow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    border-radius: 0.5em;
+    border-bottom: black 1px solid;
+    background-color: #86868670;
+    padding: 5px;
 }

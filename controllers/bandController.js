@@ -2,7 +2,6 @@
 
 // Connect to mysql
 const connection = require("../configs/database");
-
 const bandController = {};
 
 bandController.index = async (req, res) => {
@@ -20,7 +19,6 @@ bandController.index = async (req, res) => {
                 msg: 'Fetching all bands',
                 result
             })
-
         })
 
     } catch (error) {
@@ -31,8 +29,8 @@ bandController.index = async (req, res) => {
 
 bandController.create = async (req, res) => {
     try {
-        // const createBandQuery = `INSERT INTO band(name) VALUES("${req.body.name}")`
-        connection.query(`INSERT INTO band(name) VALUES("${req.body.name}")`);
+        const createBandQuery = `INSERT INTO band(name) VALUES("${req.body.name}")`
+        connection.query(createBandQuery);
 
         res.status(200);
         res.json({
@@ -47,8 +45,8 @@ bandController.create = async (req, res) => {
 
 bandController.edit = async (req, res) => {
     try {
-        // const editBandQuery = `UPDATE band SET name WHERE id = "${req.body.name}"`
-        connection.query(`UPDATE band SET name WHERE id = "${req.body.name}"`);
+        const editBandQuery = `UPDATE band SET name = "${req.body.newBandName}" WHERE id = "${req.body.bands[0].id}"`
+        connection.query(editBandQuery);
 
         res.status(200);
         res.json({
@@ -63,8 +61,8 @@ bandController.edit = async (req, res) => {
 
 bandController.delete = async (req, res) => {
     try {
-        // const deleteSpecificBandQuery = `DELETE FROM band WHERE id = "${req.params.id}"`
-        connection.query(`DELETE FROM band WHERE id = "${req.params.id}"`);
+        const deleteSpecificBandQuery = `DELETE FROM band WHERE id = "${req.params.id}"`
+        connection.query(deleteSpecificBandQuery);
 
         res.status(200);
         res.json({
@@ -123,6 +121,7 @@ bandController.getSpecificBand = async (req, res) => {
                     msg: 'The band was not found',
                     uniqueBand : false
                 })
+
             } else {
                 res.status(200)
                 res.json({
@@ -138,10 +137,10 @@ bandController.getSpecificBand = async (req, res) => {
     }
 };
 
-bandController.favourite = async (req, res) => {
+bandController.favorite = async (req, res) => {
     try {
-        // const favouriteBandQuery = `UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`
-        connection.query(`UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`);
+        const favoriteBandQuery = `UPDATE band SET favorite = favorite + 1 WHERE id = "${req.params.id}"`
+        connection.query(favoriteBandQuery);
 
         res.status(200);
         res.json({
@@ -156,16 +155,16 @@ bandController.favourite = async (req, res) => {
 
 bandController.getTopBands = async (req, res) => {
     try {
-        await connection.query('CREATE OR REPLACE VIEW topbands AS SELECT name FROM band ORDER BY band.favourite DESC LIMIT 10',
+        const createTopBansViewQuery ='CREATE OR REPLACE VIEW topbands AS SELECT name FROM band ORDER BY band.favorite DESC LIMIT 10'
+        await connection.query(createTopBansViewQuery,
             (error, result, fields) => {
             if (error) {
                 throw error
             }
         })
 
-        const getTopFiveBandsQuery = 'SELECT * FROM topbands'
-
-        await connection.query(getTopFiveBandsQuery,
+        const getTopBandsQuery = 'SELECT * FROM topbands'
+        await connection.query(getTopBandsQuery,
             (error, result, fields) => {
             if (error) {
                 throw error
@@ -176,7 +175,6 @@ bandController.getTopBands = async (req, res) => {
                 msg: 'Fetching top ten bands',
                 result
             })
-
         })
 
     } catch (error) {
@@ -187,8 +185,8 @@ bandController.getTopBands = async (req, res) => {
 
 bandController.totalNumberOfBands = async (req, res) => {
     try {
-        // const favouriteBandQuery = `UPDATE band SET favourite = favourite + 1 WHERE id = "${req.params.id}"`
-        connection.query('SELECT COUNT(band.id) AS No FROM band',
+        const countNumberOfBandsQuery = 'SELECT COUNT(band.id) AS No FROM band'
+        connection.query(countNumberOfBandsQuery,
         (error, result, fields) => {
             if (error) {
                 throw error
@@ -199,9 +197,7 @@ bandController.totalNumberOfBands = async (req, res) => {
                 msg: "Total number of bands was counted",
                 result
             });
-
         })
-
 
     } catch (error) {
         console.log(error);

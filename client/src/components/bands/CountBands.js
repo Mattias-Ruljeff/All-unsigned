@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Components
-
 const CountBands = () => {
 
     const [counter, setCounter] = useState([]);

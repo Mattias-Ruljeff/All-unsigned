@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 const AddBand = ({ addBandToList }) => {
-
     const [bands, setBands] = useState({ name: ''});
     const [error, setError] = useState({ msg: '' });
 

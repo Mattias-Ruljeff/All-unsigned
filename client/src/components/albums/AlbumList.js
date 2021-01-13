@@ -2,20 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-
 // Components
 import AlbumListDetails from './AlbumListDetails';
 
 const AlbumList = ({ bandId }) => {
     const history = useHistory()
-
     let albumDetails = {}
-
     const [albums, setAlbums] = useState([]);
-    const [newAlbum, setNewAlbum] = useState({ type:"Album" });
     const [albumType, setAlbumType] = useState();
     const [form, setForm] = useState();
-    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         axios.get(`/albums`)
@@ -41,6 +36,7 @@ const AlbumList = ({ bandId }) => {
     }, [])
 
     const removeAlbumFromList = (albumToRemove) => {
+        axios.delete(`/albums/delete/${albumToRemove}`)
         const removeAlbum = albums.filter(album => album.id !== albumToRemove)
         setAlbums(removeAlbum)
     }
@@ -131,11 +127,11 @@ const AlbumList = ({ bandId }) => {
 
     let list
     if (albums) {
-        list = albums.map(album => {
+        list = albums.map((album, index) => {
             if (parseInt(bandId) === album.band_id) {
                 return (
                     <AlbumListDetails
-                        key={album.id}
+                        key={index}
                         album={album}
                         removeAlbumFromList={removeAlbumFromList}
                         bandId={bandId}

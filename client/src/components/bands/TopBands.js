@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Components
-import AddBand from "../bands/AddBand";
-
 
 const TopBands = () => {
 

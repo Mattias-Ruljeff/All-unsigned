@@ -4,8 +4,6 @@ import axios from "axios";
 // Components
 import AddBand from "../bands/AddBand";
 import BandList from "../bands/BandList";
-// import TopBands from "../bands/TopBands";
-
 
 const BandPage = () => {
 
@@ -38,7 +36,6 @@ const BandPage = () => {
         <div className="bandPageWrapper">
             <AddBand addBandToList = {addBandToList} />
             <BandList bands = {bands} removeBandFromList = {removeBandFromList} />
-            {/* <TopBands /> */}
         </div>
     );
 }

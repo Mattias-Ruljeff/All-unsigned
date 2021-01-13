@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Components
-
 const CountAlbums = () => {
-
     const [counter, setCounter] = useState([]);
 
     useEffect(() => {
@@ -35,7 +32,6 @@ const CountAlbums = () => {
                             <tr key={index}>
                                 <td>{Type}</td>
                                 <td>{No}</td>
-                                
                             </tr>
                         )
                     }) : ""}
