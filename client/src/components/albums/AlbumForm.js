@@ -1,7 +1,6 @@
 import React from 'react';
 
-const AlbumForm = ({ handleAlbumChangeSubmit, modifiedAlbum, handleAlbumChange, albumType }) => {
-
+const AlbumForm = ({ handleAlbumChangeSubmit, modifiedAlbum, handleAlbumChange, albumType, edit }) => {
     return (
         <div className="editAlbumWindow">
             <h3>Edit album</h3>
@@ -28,26 +27,12 @@ const AlbumForm = ({ handleAlbumChangeSubmit, modifiedAlbum, handleAlbumChange, 
                     onChange={handleAlbumChange}
                 />
 
-                <label htmlFor="albumtype">Choose album type</label>
-                <select
-                    id="albumtype"
-                    name="type" 
-                    onChange={handleAlbumChange}
-                    required
-                >
-                    {albumType.map((albumtype, index) => {
-                        const {type} = albumtype
-                        return <option key={index} value={type}>{type}</option>
-                    })}
-                    
-                </select>
-
                 <input
                     type="date"
-                    name="date"
+                    name="release_date"
                     className="form-date"
                     required
-                    value={modifiedAlbum.release_date.substring(0,10)}
+                    defaultValue={modifiedAlbum.release_date.substring(0,10)}
                     onChange={handleAlbumChange}
                 />
 

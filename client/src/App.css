@@ -275,6 +275,7 @@ th {
 
 .bandCard {
     width: 48%;
+    height: 140px;
     margin-top: 10px;
     background-color: #f1f1f170;
     border: 1px solid #d3d3d3;

@@ -48,7 +48,7 @@ albumController.create = async (req, res) => {
 
 albumController.edit = async (req, res) => {
     try {
-        const editAlbumQuery = `UPDATE album SET name = "${req.body.name}", genre = "${req.body.genre}", release_date = "${req.body.release_date.substring(0,10)}" WHERE id = "${req.params.id}"`
+        const editAlbumQuery = `UPDATE album SET name = "${req.body.name}", genre = "${req.body.genre}", release_date = "${req.body.release_date.substring(0,10) + " 11:00:00"}" WHERE id = "${req.params.id}"`
         connection.query(editAlbumQuery);
 
         res.status(200);

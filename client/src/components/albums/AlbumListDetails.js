@@ -71,19 +71,11 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         setSongs(removeSong)
     }
 
-    // Handles the changes in the task.
-    const handleAlbumChange = (event) => {
-        newAlbumDetail = {
-            ...modifiedAlbum,
-            [event.target.name]: event.target.value
-        }
-    }
-
     // Handles the data when submiting.
     const handleSubmit = (event, editSong, id) => {
         event.preventDefault();
-
         newSongDetail = {...newSongDetail, albumId:album.id}
+        setSongs([...songs, newSongDetail])
         axios.get(`/albums/songs/${album.id}`)
         .then(res => {
             setSongs(res.data.result)
@@ -99,25 +91,8 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         } else {
             axios.post("/albums/songs/add", newSongDetail)
         }
-
-        setSongForm("")
-    }
-
-    const handleAlbumChangeSubmit = (event) => {
-        event.preventDefault();
-
-        axios.post(`/albums/edit/${album.id}`, newAlbumDetail)
         setSongForm("")
 
-        axios.get(`/albums/songs/${album.id}`)
-        .then(res => {
-            setSongs(res.data.result)
-        })
-        .catch(error => {
-            console.log(error)
-            setSongs([])
-            history.push("/404")
-        })
     }
 
     const addSongForm = (event, string, editSong, id) => {
@@ -161,7 +136,7 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
         }
     }
 
-    const editAlbumForm = (e) => {
+    const editAlbumForm = () => {
         if (!albumForm) {
             setAlbumForm(
                 <AlbumForm 
@@ -170,9 +145,51 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                     handleAlbumChange={handleAlbumChange}
                     albumType={albumType}
                     newAlbumDetail={newAlbumDetail}
+                    edit={true}
                 />
             )
         } else { setAlbumForm("")}
+    }
+
+    // Handles the changes in the albumForm.
+    const handleAlbumChange = (event) => {
+        setModifiedAlbum({
+            ...modifiedAlbum,
+            [event.target.name]: event.target.value
+        })
+        newAlbumDetail = {
+            ...newAlbumDetail,
+            [event.target.name]: event.target.value
+        }
+    }
+
+    const handleAlbumChangeSubmit = (event) => {
+        event.preventDefault();
+
+        if (!newAlbumDetail.name) {
+            newAlbumDetail.name = modifiedAlbum.name
+        }
+        
+        if (!newAlbumDetail.genre) {
+            newAlbumDetail.genre = modifiedAlbum.genre
+        }
+
+        if (!newAlbumDetail.release_date) {
+            newAlbumDetail.release_date = modifiedAlbum.release_date
+        }
+
+        axios.post(`/albums/edit/${album.id}`, newAlbumDetail)
+        
+        axios.get(`/albums/songs/${album.id}`)
+        .then(res => {
+            setSongs(res.data.result)
+        })
+        .catch(error => {
+            console.log(error)
+            setSongs([])
+            history.push("/404")
+        })
+        setAlbumForm("")
     }
 
     if (albumType) {
@@ -208,9 +225,9 @@ const AlbumListDetails = ({ album, albumType, removeAlbumFromList, bandId }) => 
                 </button>
 
                 <div className="albumnInfo">
-                    <p><b>Name:</b> {album.name}</p>
+                    <p><b>Name:</b> {modifiedAlbum.name}</p>
                     <p><b>Type:</b> {albumTypeHere}</p>
-                    <p><b>Genre:</b> {album.genre}</p>
+                    <p><b>Genre:</b> {modifiedAlbum.genre}</p>
                     <p><b>Release date:</b> {album.release_date.substring(0,10)}</p>
 
                     <div className="albumInfoButtons">

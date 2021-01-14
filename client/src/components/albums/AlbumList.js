@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 // Components
 import AlbumListDetails from './AlbumListDetails';
+import AlbumForm from "./AlbumForm"
 
 const AlbumList = ({ bandId }) => {
     const history = useHistory()
