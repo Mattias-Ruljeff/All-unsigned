@@ -15,7 +15,7 @@ Location: Linneus Univeristy, Kalmar
 Google <3
 
 /* SITE */
-Last update: 2021/01/14
+Last update: 2021/01/17
 Language: English
 Doctype: HTML5
 IDE: VSC, JavaScript & Node

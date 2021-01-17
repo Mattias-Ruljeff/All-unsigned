@@ -28,3 +28,4 @@ DB_PORT = "optional socket port path"
 6. Visit [localhost:3000](http://localhost:3000) in your browser.
 
 ### Supplemental Video
+Link to the video: [Video Submission](https://www.youtube.com/watch?v=P-GkU9lkDmU&feature=youtu.be)

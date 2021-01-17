@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 14, 2021 at 09:23 AM
+-- Generation Time: Jan 17, 2021 at 05:08 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -50,6 +50,15 @@ CREATE TABLE `album_type` (
   `id` int(11) NOT NULL,
   `type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `album_type`
+--
+
+INSERT INTO `album_type` (`id`, `type`) VALUES
+(3, 'Album'),
+(1, 'EP'),
+(2, 'Single');
 
 -- --------------------------------------------------------
 
@@ -142,19 +151,19 @@ ALTER TABLE `song`
 -- AUTO_INCREMENT for table `album`
 --
 ALTER TABLE `album`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `band`
 --
 ALTER TABLE `band`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `song`
 --
 ALTER TABLE `song`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- Constraints for dumped tables
