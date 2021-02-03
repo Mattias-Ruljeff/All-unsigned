@@ -26,6 +26,3 @@ DB_PORT = "optional socket port path"
 4. Navigate to the `client folder` and run `npm i`
 5. Navigate to the `root folder` and run `npm i && npm run devStart`
 6. Visit [localhost:3000](http://localhost:3000) in your browser.
-
-### Supplemental Video
-Link to the video: [Video Submission](https://www.youtube.com/watch?v=P-GkU9lkDmU&feature=youtu.be)
