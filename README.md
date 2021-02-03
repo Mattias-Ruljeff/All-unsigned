@@ -12,7 +12,7 @@ Made by Oscar Elf Svensson (os222di) & Mattias Ruljeff (mr223mi)
 2. Import the provided database file `all-unsigned.sql`
 
 ### Steps - Source Code
-1. Clone the repo `git clone git@gitlab.lnu.se:mr223mi/allunsigned.git` OR download it manually. 
+1. Clone the repo `git clone https://github.com/Mattias-Ruljeff/All-unsigned` OR download it manually. 
 2. Create a .env file in the server directory with the following properties:  
    Change the variables to fit your environment.
 ```
